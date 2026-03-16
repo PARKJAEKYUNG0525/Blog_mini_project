@@ -9,8 +9,8 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import MemberList from "./components/MemberList";
 import EditBoard from "./components/EditBoard";
-import MyBoard from './components/MyBoard';
-import Calender from './components/Calender';
+import Calender from './components/Calendar';
+import AllBoard from './components/AllBoard';
 
 const App = () => {
   return (
@@ -25,8 +25,6 @@ const App = () => {
           <Route path='/memberList' element={<MemberList />}></Route>
           <Route path='/board/create' element={<CreateBoard />}></Route>
           <Route path='/board/edit/:id' element={<EditBoard />}></Route>
-          <Route path='/MyBoard' element={<MyBoard />}></Route>
-          <Route path='/Calender' element={<Calender />}></Route>
         </Routes>
       </BrowserRouter>
     </AuthContextPro>
