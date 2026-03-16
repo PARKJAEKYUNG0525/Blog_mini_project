@@ -6,6 +6,8 @@ const SignUp = () => {
     const [userId, setUserId]=useState('');
     const [password, setPassword]=useState('');
     const [confirmPassword, setConfirmPassword]=useState('');
+    const [name, setName]=useState('');
+    const [birthDate, setBirthDate]=useState('');
     const [errors, setErrors]=useState({});
     const navigator=useNavigate();
 
@@ -30,6 +32,14 @@ const SignUp = () => {
             newErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
         }
 
+        if (name.trim().length < 2) {
+            newErrors.name = '이름은 2글자 이상이어야 합니다.';
+        }
+
+        if (!birthDate) {
+            newErrors.birthDate = '생년월일을 입력해주세요.';
+        }
+
         return newErrors;
     };
 
@@ -42,7 +52,7 @@ const SignUp = () => {
             return;
         }
 
-        const user={userId, password};
+        const user={userId, password, name, birthDate};
 
         let users=JSON.parse(localStorage.getItem("users")) || [] ;
         users.push(user);
@@ -52,6 +62,8 @@ const SignUp = () => {
         setUserId("");
         setPassword("");
         setConfirmPassword("");
+        setName("");
+        setBirthDate("");
         setErrors({});
 
         navigator('/login');
@@ -60,17 +72,30 @@ const SignUp = () => {
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
             <form onSubmit={onSubmit1} className="bg-white p-8 rounded shadow w-80">
-                  <h1 className="text-xl font-bold mb-4 text-center">회원 가입</h1>
-                아이디 :<input  className="border w-full p-2 mb-1 rounded" type='text' value={userId} onChange={(e)=>{setUserId(e.target.value); setErrors(prev=>({...prev, userId:''}))}}></input>
+                <h1 className="text-xl font-bold mb-4 text-center">회원 가입</h1>
+
+                아이디 :
+                <input className="border w-full p-2 mb-1 rounded" type='text' value={userId} onChange={(e)=>{setUserId(e.target.value); setErrors(prev=>({...prev, userId:''}))}}></input>
                 {errors.userId && <p className="text-red-500 text-xs mb-2">{errors.userId}</p>}
-                비밀번호 : <input   className="border w-full p-2 mb-1 rounded" type='password' value={password} onChange={(e)=>{setPassword(e.target.value); setErrors(prev=>({...prev, password:''}))}}></input>
+
+                비밀번호 :
+                <input className="border w-full p-2 mb-1 rounded" type='password' value={password} onChange={(e)=>{setPassword(e.target.value); setErrors(prev=>({...prev, password:''}))}}></input>
                 {errors.password && <p className="text-red-500 text-xs mb-2">{errors.password}</p>}
-                비밀번호 확인 : <input className="border w-full p-2 mb-1 rounded" type='password' value={confirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value); setErrors(prev=>({...prev, confirmPassword:''}))}}></input>
+
+                비밀번호 확인 :
+                <input className="border w-full p-2 mb-1 rounded" type='password' value={confirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value); setErrors(prev=>({...prev, confirmPassword:''}))}}></input>
                 {errors.confirmPassword && <p className="text-red-500 text-xs mb-2">{errors.confirmPassword}</p>}
-            
-                 <button className="bg-green-500 text-white w-full py-2 rounded mt-2">회원가입</button>
+
+                이름 :
+                <input className="border w-full p-2 mb-1 rounded" type='text' value={name} onChange={(e)=>{setName(e.target.value); setErrors(prev=>({...prev, name:''}))}}></input>
+                {errors.name && <p className="text-red-500 text-xs mb-2">{errors.name}</p>}
+
+                생년월일 :
+                <input className="border w-full p-2 mb-1 rounded" type='date' value={birthDate} onChange={(e)=>{setBirthDate(e.target.value); setErrors(prev=>({...prev, birthDate:''}))}}></input>
+                {errors.birthDate && <p className="text-red-500 text-xs mb-2">{errors.birthDate}</p>}
+
+                <button className="bg-green-500 text-white w-full py-2 rounded mt-2">회원가입</button>
             </form>
-    
         </div>
     );
 };
