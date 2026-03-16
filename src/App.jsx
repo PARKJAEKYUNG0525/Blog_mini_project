@@ -32,5 +32,5 @@ const App = () => {
     </AuthContextPro>
   );
 };
-
+// 수정
 export default App;
