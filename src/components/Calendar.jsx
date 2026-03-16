@@ -1,7 +1,7 @@
 import React from 'react';
 import MyCalendar from '../CalendarPage/MyCalendar';
 
-const Calender = () => {
+const Calendar = () => {
     return (
         <div className="flex justify-center items-center h-screen text-xl font-bold">
             <MyCalendar />
@@ -9,4 +9,4 @@ const Calender = () => {
     );
 };
 
-export default Calender;
+export default Calendar;
