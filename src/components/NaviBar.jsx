@@ -22,7 +22,7 @@ const NaviBar = () => {
             <Link to="/memberList"> 회원목록 </Link>
             <Link to="/boardList"> 전체 게시글 </Link>
             <Link to="/MyBoard"> 내 게시글 </Link>
-            <Link to="/boardList"> 캘린더 </Link>
+            <Link to="/Calender"> 캘린더 </Link>
             </div>
 
         <div className="flex gap-4 items-center">
