@@ -9,6 +9,8 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import MemberList from "./components/MemberList";
 import EditBoard from "./components/EditBoard";
+import Calender from './components/Calendar';
+import AllBoard from './components/AllBoard';
 
 const App = () => {
   return (
