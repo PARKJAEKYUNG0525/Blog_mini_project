@@ -19,8 +19,10 @@ const NaviBar = () => {
         <div className="max-w-5xl mx-auto flex justify-between items-center p-4">
         <div className="flex gap-6 font-semibold">
             <Link to="/">홈</Link>
-            <Link to="/memberList">회원목록</Link>
-            <Link to="/boardList">게시글목록</Link>
+            <Link to="/memberList"> 회원목록 </Link>
+            <Link to="/boardList"> 전체 게시글 </Link>
+            <Link to="/MyBoard"> 내 게시글 </Link>
+            <Link to="/Calender"> 캘린더 </Link>
             </div>
 
         <div className="flex gap-4 items-center">
