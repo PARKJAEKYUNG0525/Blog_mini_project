@@ -11,6 +11,7 @@ import MemberList from "./components/MemberList";
 import EditBoard from "./components/EditBoard";
 import AllBoard from './components/AllBoard';
 import Calendar from './components/Calendar';
+import "react-calendar/dist/Calendar.css"
 
 const App = () => {
   return (
