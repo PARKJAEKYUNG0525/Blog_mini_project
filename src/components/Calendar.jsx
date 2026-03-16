@@ -1,5 +1,4 @@
 import React from 'react';
-import MyCalendar from '../CalendarPage/MyCalendar';
 
 const Calendar = () => {
     return (
