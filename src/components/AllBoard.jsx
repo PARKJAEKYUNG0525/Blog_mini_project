@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+// 전체 게시글 페이지
+
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from './AuthContextPro';
 
 const AllBoard = () => {
 
     const [posts, setPosts]=useState([]);
-    const [currentUser, setCurrentUser]=useState(null);
+    const { currentUser }=useAuth();
 
     useEffect(()=>{
         const storedPosts=JSON.parse(localStorage.getItem("posts")) || [];
         setPosts(storedPosts);
-
-        const storedUser=JSON.parse(localStorage.getItem("currentUser")) || null;
-        setCurrentUser(storedUser);
     },[])
 
     const handleDelete=(id)=>{
@@ -26,7 +26,7 @@ const AllBoard = () => {
     return (
       <div className="max-w-3xl mx-auto mt-10">
         <div className="flex justify-between mb-4">
-          <h1 className="text-2xl font-bold">게시글 목록</h1>
+          <h1 className="text-2xl font-bold">전체 게시글</h1>
           <Link to="/board/create" className="bg-green-500 text-white px-3 py-1 rounded">글쓰기</Link>
         </div>
       
@@ -55,7 +55,7 @@ const AllBoard = () => {
               </div>
             ))
           ) : (
-            <div>게시물 없다</div>
+            <div>게시물이 없습니다.</div>
           )}
         </div>
       </div>
