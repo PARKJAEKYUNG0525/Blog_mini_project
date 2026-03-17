@@ -54,8 +54,30 @@ const MemberList = () => {
                         </ul>
                     </>
                 ) : (
-                    <div className="text-center text-gray-500 py-4">
-                        회원목록은 관리자만 볼 수 있습니다
+                    <div className="text-center text-black-500 py-4">
+                        <>
+                        {/* 테이블 헤더 */}
+                        <div className="flex justify-between items-center bg-gray-200 px-3 py-2 rounded mb-1 text-sm font-bold">
+                            <span className="w-1/3 text-center">아이디</span>
+                            <span className="w-1/3 text-center">이름</span>
+                            <span className="w-1/3 text-center">생년월일</span>
+                        </div>
+
+                        {/* 회원 목록 */}
+                        <ul>
+                            {users.length > 0 ? (
+                                users.map((user, index) => (
+                                    <li key={index} className="flex justify-between items-center border-b px-3 py-2 text-sm">
+                                        <span className="w-1/3 text-center">{user.userId}</span>
+                                        <span className="w-1/3 text-center">{user.name}</span>
+                                        <span className="w-1/3 text-center">{user.birthDate}</span>
+                                    </li>
+                                ))
+                            ) : (
+                                <li className="text-center text-gray-400 py-4">회원이 없습니다</li>
+                            )}
+                        </ul>
+                    </>
                     </div>
                 )}
             </div>
