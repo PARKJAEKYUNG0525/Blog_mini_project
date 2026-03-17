@@ -1,21 +1,27 @@
-import React from 'react';
+import {useState} from 'react';
 
-const Attendance = () => {
-    const [attendance,SetAttendance]=useState({});
-    const dataKey = Date.toISOString().slice(0,10);
+const Attendance = ({ dateKey, attendance, setAttendance }) => {
 
-     const checkAttendance=()=>{
-        const key = Date.toISOString().slice(0,10);
+  const checkAttendance = () => {
+    setAttendance({
+      ...attendance,
+      [dateKey]: true
+    });
+  };
 
-        SetAttendance({
-            ...attendance,[key]:true
-        });
-     }
-    return (
-        <div>
-            <button onClick={checkAttendance}>출석체크</button>
-        </div>
-    );
+  return (
+    <div>
+      <p>날짜 : {dateKey}</p>
+
+      <button onClick={checkAttendance}>
+        출석체크
+      </button>
+
+      <p>
+        상태 {attendance[dateKey] ? '출석' : '미출석'}
+      </p>
+    </div>
+  );
 };
 
 export default Attendance;
