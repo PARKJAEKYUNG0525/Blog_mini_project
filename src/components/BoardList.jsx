@@ -16,7 +16,7 @@ const BoardList = () => {
 
     },[])
 
-
+    //삭제 버튼
     const handleDelete=(id)=>{
         const updated=posts.filter((post) => post.id !== id);
         setPosts(updated);
@@ -26,14 +26,24 @@ const BoardList = () => {
 
     }
 
+
     return (
-      <div className="max-w-3xl mx-auto mt-10">
-      <div className="flex justify-between mb-4">
+    <div className="max-w-5xl mx-auto mt-10 flex gap-10">
+        <div className="w-1/4 border p-4 rounded shadow h-fit">
+            <h2 className="font-bold mb-3">회원 정보</h2>
+                <div>이름 : {currentUser && currentUser.name}</div>
+                <div className="mb-4">생년월일 : {currentUser && currentUser.birthDate}</div>
+                <Link to="/board/create" className="bg-green-500 text-white px-3 
+                    py-1 rounded block text-center">글쓰기</Link>
+        </div>
+    
+
+    <div className="flex-1">
+    <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">게시글 목록</h1>
-            <Link to="/board/create"  className="bg-green-500 text-white px-3 py-1 rounded">글쓰기</Link>
-            </div>
+    </div>
       
-      <div className="space-y-3">
+        <div className="space-y-3">
         {posts.length > 0 ? (
             posts.map((post)=>(
                 <div key={post.id} className="border p-4 rounded shadow flex justify-between">
@@ -51,10 +61,22 @@ const BoardList = () => {
             </div>
             ))
         ) : (
-            <div>게시물 없다</div>
+            <div>게시물 없음</div>
         )}
+        <br></br><br></br>
+        <hr className="my-8 border-gray-300"></hr>
+        <br></br><br></br>
+            <div>
+                {posts.length > 0 && (posts.map((post)=>(
+                    <div key={post.id} className="border p-4 rounded shadow mb-3">
+                        <div className="font-bold text-lg">제목 : {post.title}</div>
+                        <div className="text-gray-600 mt-2">내용 : {post.content}</div>
+                    </div>
+                )))}
+            </div>
         </div>
-        </div>
+    </div>
+    </div>
     );
 };
 export default BoardList;
