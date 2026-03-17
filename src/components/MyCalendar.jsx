@@ -7,11 +7,10 @@ function MyCalendar() {
   const [date, setDate] = useState(new Date());
 
   return (
-    <Calendar
-      onChange={setDate}
-      value={date}
-      calendarType="gregory"
-    />
+    <div>
+    <Calendar onChange={setDate} value={date} calendarType="gregory"/>
+    <p>선택한 날짜 : {date.toDateString()}</p>
+    </div>
   );
 }
 
