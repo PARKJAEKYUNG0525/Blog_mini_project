@@ -1,64 +1,82 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const CreateBoard = () => {
-    //제목 상태 초기화
-    const [title, setTitle]=useState('');
-    //내용 상태 초기화
-    const [content, setContent]=useState('');
+const BoardList = () => {
 
-    //네비게이트
-    const navigator=useNavigate();
-    
-    //login.jsx 에서 저장한 로그인한 사용자 정보 가져온다.
-    const currentUser=JSON.parse(localStorage.getItem("currentUser"));
+    const [posts, setPosts]=useState([]);
+    const [currentUser, setCurrentUser]=useState(null);
 
-    //currentUser 가 false면 alert, 로그인 창 이동
     useEffect(()=>{
-        if(!currentUser){
-            alert("로그인 필요하다");
-            navigator('/login');
-        }
-    },[]);
+        //posts 가져오고, currentUser도 가져온다..
+        const storedPosts=JSON.parse(localStorage.getItem("posts")) || [];
+        setPosts(storedPosts);
 
-    //onSubmit1 구현 -> 새로고침 방지
-    const onSubmit1=(e)=>{
-        e.preventDefault();
+        const storedUser=JSON.parse(localStorage.getItem("currentUser")) || [];
+        setCurrentUser(storedUser);
 
-    //로컬스토리지에서 내가 쓴 제목과 내용을 읽어와서 posts에 저장(key : posts)
-    let posts=JSON.parse(localStorage.getItem("posts")) || [];
+    },[])
 
-    //현재 로그인한 사용자 아이디 추가해서 배열에 삽입
-    const newPost={
-        id:Date.now(),
-        title,
-        content,
-        writerId:currentUser.userId,
+    //삭제 버튼
+    const handleDelete=(id)=>{
+        const updated=posts.filter((post) => post.id !== id);
+        setPosts(updated);
+
+        //삭제 후 남겨진 데이터만 로컬스토리지에 저장 ..posts
+        localStorage.setItem("posts", JSON.stringify(updated));
+
     }
 
-    posts.push(newPost);
-
-    //로컬스토리지에 내가 쓴 제목과 내용을 저장 (key : posts) 
-    localStorage.setItem("posts", JSON.stringify(posts));
-
-    setTitle("");
-    setContent("");
-
-    navigator('/boardList');
-
-    };
 
     return (
-         <div className="max-w-xl mx-auto mt-10 bg-white p-6 rounded shadow">
-      <h1 className="text-xl font-bold mb-4">게시글 작성</h1>
-            <form onSubmit={onSubmit1}>
-                제목 : <input type='text' className="border w-full p-2 mb-3 rounded" value={title} onChange={(e)=>setTitle(e.target.value)} />
-                내용 : <textarea  className="border w-full p-2 mb-3 rounded h-40" value={content} onChange={(e)=>setContent(e.target.value)} />
-                
-                <button className="bg-blue-500 text-white px-4 py-2 rounded">작성 완료</button>
-            </form>
+    <div className="max-w-5xl mx-auto mt-10 flex gap-10">
+        <div className="w-1/4 border p-4 rounded shadow h-fit">
+            <h2 className="font-bold mb-3">회원 정보</h2>
+                <div>이름 : {currentUser && currentUser.name}</div>
+                <div className="mb-4">생년월일 : {currentUser && currentUser.birthDate}</div>
+                <Link to="/board/create" className="bg-green-500 text-white px-3 
+                    py-1 rounded block text-center">글쓰기</Link>
         </div>
+    
+
+    <div className="flex-1">
+    <div className="flex justify-between mb-4">
+        <h1 className="text-2xl font-bold">게시글 목록</h1>
+    </div>
+      
+        <div className="space-y-3">
+        {posts.length > 0 ? (
+            posts.map((post)=>(
+                <div key={post.id} className="border p-4 rounded shadow flex justify-between">
+                    <div>{post.title}</div>
+                
+                {currentUser && currentUser.userId === post.writerId && (
+                     <div className="flex gap-3">
+                    
+                        <Link to={`/board/edit/${post.id}`} className="text-blue-500">수정</Link>
+
+                  
+                        <button onClick={()=> handleDelete(post.id)} className="text-red-500">삭제</button>
+                    </div>
+                )}
+            </div>
+            ))
+        ) : (
+            <div>게시물 없음</div>
+        )}
+        <br></br><br></br>
+        <hr className="my-8 border-gray-300"></hr>
+        <br></br><br></br>
+            <div>
+                {posts.length > 0 && (posts.map((post)=>(
+                    <div key={post.id} className="border p-4 rounded shadow mb-3">
+                        <div className="font-bold text-lg">제목 : {post.title}</div>
+                        <div className="text-gray-600 mt-2">내용 : {post.content}</div>
+                    </div>
+                )))}
+            </div>
+        </div>
+    </div>
+    </div>
     );
 };
-
-export default CreateBoard;
+export default BoardList;
