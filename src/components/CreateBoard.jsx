@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContextPro';
 
 const CreateBoard = () => {
     //1. 제목 상태 초기화
@@ -12,7 +13,7 @@ const CreateBoard = () => {
     
 
     //login.jsx 에서 저장한 로그인한 사용자 정보 가져온다.
-    const currentUser=JSON.parse(localStorage.getItem("currentUser"));
+    const {currentUser} = useAuth();
 
     //currentUser 가 false면 alert -> 로그인 필요해
     //                      /login
@@ -50,7 +51,7 @@ const CreateBoard = () => {
     setTitle("");
     setContent("");
 
-    navigator('/boardList');
+    navigator('/myBoard');
 
     };
 
