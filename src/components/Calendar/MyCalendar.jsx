@@ -9,7 +9,7 @@ function MyCalendar() {
   return (
     <div>
     <Calendar onChange={setDate} value={date} calendarType="gregory"/>
-    <p>선택한 날짜 : {date.toDateString()}</p>
+    <p>선택한 날짜 : {date.toISOString().slice(0,10)}</p>
     </div>
   );
 }
