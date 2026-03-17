@@ -36,19 +36,19 @@ const BoardList = () => {
       <div className="space-y-3">
         {posts.length > 0 ? (
             posts.map((post)=>(
-                <div key={post.id} className="border p-4 rounded shadow flex justify-between">
-                    <div>{post.title}</div>
-                
-                {currentUser && currentUser.userId === post.writerId && (
-                     <div className="flex gap-3">
-                    
-                        <Link to={`/board/edit/${post.id}`} className="text-blue-500">수정</Link>
-
-                  
-                        <button onClick={()=> handleDelete(post.id)} className="text-red-500">삭제</button>
+                <div key={post.id} className="border p-4 rounded shadow flex justify-between items-center">
+                    <div>
+                        <div>{post.title}</div>
+                        <div className="text-sm text-gray-500">작성자: {post.writerName}</div>  
                     </div>
-                )}
-            </div>
+                    
+                    {currentUser && currentUser.userId === post.writerId && (
+                        <div className="flex gap-3">
+                            <Link to={`/board/edit/${post.id}`} className="text-blue-500">수정</Link>
+                            <button onClick={()=> handleDelete(post.id)} className="text-red-500">삭제</button>
+                        </div>
+                    )}
+                </div>
             ))
         ) : (
             <div>게시물 없다</div>

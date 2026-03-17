@@ -38,6 +38,7 @@ const CreateBoard = () => {
         title,
         content,
         writerId:currentUser.userId, //현재 로그인한 사용자 아이디 추가해서 배열에 삽입
+        writerName: currentUser.name,
     }
     //posts 에다 newPost추가
     posts.push(newPost);
