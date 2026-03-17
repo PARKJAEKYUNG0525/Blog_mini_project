@@ -1,69 +1,193 @@
-import { useState } from 'react';
-import MyCalendar from './Calendar/MyCalendar';
-import Attendance from './Calendar/Attendance'
-import ScheduleList from './Calendar/ScheduleList'
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import CalendarLib from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { useAuth } from "./AuthContextPro";
 
+// 날짜 key 생성 함수
 const getDateKey = (date) => {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
 const Calendar = () => {
+  const navigate = useNavigate();
+
+  const { currentUser } = useAuth();
+  useEffect(() => {
+    if (!currentUser) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+    }
+  }, [currentUser]);
+
+  const userKey = currentUser?.userId;
+  const storageKey = `schedules_${userKey}`;
 
   const [date, setDate] = useState(new Date());
-  const [attendance, setAttendance] = useState({});
-  const [schedules, setSchedules] = useState({});
+  const attendanceKey = `attendance_${userKey}`;
 
-  const dateKey = getDateKey(date); // ⭐ 여기서 생성
+  const [attendance, setAttendance] = useState(() => {
+    if (!currentUser) return {};
+    const saved = localStorage.getItem(`attendance_${userKey}`);
+    return saved ? JSON.parse(saved) : {};
+  });
+  useEffect(() => {
+    if (!currentUser) return;
+    localStorage.setItem(`attendance_${userKey}`, JSON.stringify(attendance));
+  }, [attendance, currentUser]);
+
+  const [schedules, setSchedules] = useState(() => {
+    const saved = localStorage.getItem(storageKey);
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(schedules));
+  }, [schedules, storageKey]);
+  useEffect(() => {
+    const saved = localStorage.getItem(storageKey);
+    setSchedules(saved ? JSON.parse(saved) : {});
+  }, [storageKey]);
+
+  // attendance 저장
+  useEffect(() => {
+    if (!currentUser) return;
+
+    localStorage.setItem(
+      `attendance_${currentUser.id}`,
+      JSON.stringify(attendance),
+    );
+  }, [attendance, currentUser]);
+
+  // 유저 변경 대응
+  useEffect(() => {
+    const saved = localStorage.getItem(attendanceKey);
+    setAttendance(saved ? JSON.parse(saved) : {});
+  }, [attendanceKey]);
+
+  const dateKey = getDateKey(date);
+
+  // 캘린더 컴포넌트 (내부화)
+  const MyCalendar = () => {
+    return (
+      <CalendarLib onChange={setDate} value={date} calendarType="gregory" />
+    );
+  };
+
+  // 출석
+  const Attendance = () => {
+    const checkAttendance = () => {
+      setAttendance({
+        ...attendance,
+        [dateKey]: true,
+      });
+    };
+
+    return (
+      <div>
+        <p>날짜 : {dateKey}</p>
+
+        <button type="submit" onClick={checkAttendance}>
+          [출석체크]
+        </button>
+
+        <p>상태 : {attendance[dateKey] ? "출석" : "미출석"}</p>
+      </div>
+    );
+  };
+
+  // 일정
+  const ScheduleList = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [input, setInput] = useState("");
+
+    const todaySchedules = schedules[dateKey] || [];
+
+    const addSchedule = () => {
+      if (!input.trim()) return;
+
+      const newItem = {
+        id: Date.now(),
+        text: input,
+      };
+
+      setSchedules({
+        ...schedules,
+        [dateKey]: [...todaySchedules, newItem],
+      });
+
+      setInput("");
+      setIsOpen(false);
+    };
+
+    return (
+      <div>
+        <h3>일정</h3>
+
+        {todaySchedules.map((item) => (
+          <p key={item.id}>{item.text}</p>
+        ))}
+
+        <button onClick={() => setIsOpen(!isOpen)}>[글쓰기]</button>
+
+        {isOpen && (
+          <div className="flex gap-2 mt-2">
+            <input
+              className="border p-1 rounded w-full"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addSchedule();
+                }
+              }}
+              placeholder="일정 입력"
+            />
+            <button
+              className="bg-blue-500 text-white px-3 rounded"
+              onClick={addSchedule}
+            >
+              추가
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="w-full min-h-screen bg-gray-100 flex justify-center p-10">
       <div className="w-full max-w-6xl bg-white rounded-2xl shadow-lg p-6 flex gap-6">
-        
-        {/* ✅ 왼쪽: 기존 캘린더 그대로 사용 */}
+        {/* 왼쪽: 캘린더 */}
         <div className="w-2/3">
-          <div className="border rounded-xl p-6 shadow-sm bg-gray-50">
-            <MyCalendar 
-              date={date} 
-              setDate={setDate} 
-              attendance={attendance}
-            />
+          <div className="border rounded-2xl p-6 shadow-sm bg-gray-50 flex justify-center">
+            <MyCalendar />
           </div>
         </div>
 
-        {/* ✅ 오른쪽: 출석 + 일정 */}
+        {/* 오른쪽 */}
         <div className="w-1/3 flex flex-col gap-4">
-
-          {/* 날짜 */}
+          {/* 오늘 날짜 */}
           <div className="bg-gray-50 p-4 rounded-xl shadow-sm">
             <p className="text-lg font-semibold">
-              {dateKey}
+              {new Date().toISOString().split("T")[0]}
             </p>
           </div>
 
           {/* 출석 */}
           <div className="bg-gray-50 p-4 rounded-xl shadow-sm">
-            <Attendance
-              dateKey={dateKey}   
-              attendance={attendance}
-              setAttendance={setAttendance}
-            />
+            <Attendance />
           </div>
 
           {/* 일정 */}
           <div className="bg-gray-50 p-4 rounded-xl shadow-sm">
-            <ScheduleList
-              dateKey={dateKey}
-              schedules={schedules}
-              setSchedules={setSchedules}
-            />
+            <ScheduleList />
           </div>
-
         </div>
-
       </div>
     </div>
   );

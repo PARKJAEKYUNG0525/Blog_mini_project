@@ -28,7 +28,7 @@ const ScheduleForm = ({ dateKey, schedules, setSchedules, close }) => {
         onChange={(e) => setText(e.target.value)}
         placeholder="일정 입력"
       />
-      <button onClick={addSchedule}>추가</button>
+      <button type='submit' onClick={addSchedule}>[추가]</button>
     </div>
   );
 };
