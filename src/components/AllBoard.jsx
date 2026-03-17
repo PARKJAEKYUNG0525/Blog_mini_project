@@ -35,7 +35,7 @@ const AllBoard = () => {
             posts.map((post)=>(
               <div key={post.id} className="border p-4 rounded shadow flex justify-between items-center">
                 <div>
-                  <div>{post.title}</div>
+                  <div className="font-bold">{post.title}</div>
                   <div className="text-sm text-gray-500">작성자: {post.writerName}</div>
                 </div>
               
