@@ -29,7 +29,7 @@ const Login = () => {
             setUserId("");
             setPassword("");
 
-            navigator('/boardList');
+            navigator('/');
         }
         else{
             alert('아이디 또는 비밀번호 오류');

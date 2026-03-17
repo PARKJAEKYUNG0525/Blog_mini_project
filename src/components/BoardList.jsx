@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 const BoardList = () => {
 
@@ -28,6 +27,9 @@ const BoardList = () => {
 
 
     return (
+        <div className="flex justify-center items-center h-screen text-3xl font-bold">
+            내 게시글
+        </div>
     <div className="max-w-5xl mx-auto mt-10 flex gap-10">
         <div className="w-1/4 border p-4 rounded shadow h-fit">
             <h2 className="font-bold mb-3">회원 정보</h2>
@@ -79,4 +81,5 @@ const BoardList = () => {
     </div>
     );
 };
+
 export default BoardList;
