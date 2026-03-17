@@ -20,29 +20,51 @@ const Calendar = () => {
   const dateKey = getDateKey(date); // ⭐ 여기서 생성
 
   return (
-    <div className="flex justify-center items-start gap-10 p-10">
+    <div className="w-full min-h-screen bg-gray-100 flex justify-center p-10">
+      <div className="w-full max-w-6xl bg-white rounded-2xl shadow-lg p-6 flex gap-6">
+        
+        {/* ✅ 왼쪽: 기존 캘린더 그대로 사용 */}
+        <div className="w-2/3">
+          <div className="border rounded-xl p-6 shadow-sm bg-gray-50">
+            <MyCalendar 
+              date={date} 
+              setDate={setDate} 
+              attendance={attendance}
+            />
+          </div>
+        </div>
 
-    <div>
-    <MyCalendar 
-      date={date} 
-      setDate={setDate} 
-      attendance={attendance}
-    />
-    </div>
+        {/* ✅ 오른쪽: 출석 + 일정 */}
+        <div className="w-1/3 flex flex-col gap-4">
 
-    <div className="flex flex-col gap-4">
-      <Attendance
-        dateKey={dateKey}   // ⭐ date 대신 key 내려줌
-        attendance={attendance}
-        setAttendance={setAttendance}
-      />
-      <ScheduleList
-      dateKey={dateKey}
-      schedules={schedules}
-      setSchedules={setSchedules}
-      />
-    </div>
+          {/* 날짜 */}
+          <div className="bg-gray-50 p-4 rounded-xl shadow-sm">
+            <p className="text-lg font-semibold">
+              {dateKey}
+            </p>
+          </div>
 
+          {/* 출석 */}
+          <div className="bg-gray-50 p-4 rounded-xl shadow-sm">
+            <Attendance
+              dateKey={dateKey}   
+              attendance={attendance}
+              setAttendance={setAttendance}
+            />
+          </div>
+
+          {/* 일정 */}
+          <div className="bg-gray-50 p-4 rounded-xl shadow-sm">
+            <ScheduleList
+              dateKey={dateKey}
+              schedules={schedules}
+              setSchedules={setSchedules}
+            />
+          </div>
+
+        </div>
+
+      </div>
     </div>
   );
 };
