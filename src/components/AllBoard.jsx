@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Calender = () => {
+const AllBoard = () => {
     return (
         <div className="flex justify-center items-center h-screen text-3xl font-bold">
-            캘린더
+            전체 게시글
         </div>
     );
 };
 
-export default Calender;
+export default AllBoard;
