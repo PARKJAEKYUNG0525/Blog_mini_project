@@ -32,8 +32,8 @@ const EditBoard = () => {
         //수정된 값 다시 로컬스토리지에 저장
         localStorage.setItem("posts", JSON.stringify(posts));
 
-        //boardList로 이동
-        navigator('/boardList');
+        //MyBoard로 이동
+        navigator('/myBoard');
 
     }
    

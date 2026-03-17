@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useAuth } from './AuthContextPro';
 
 const MemberList = () => {
     const [users, setUsers] = useState(JSON.parse(localStorage.getItem("users")) || []);
-    const [currentUser, setCurrentUser] = useState(null);
-
-    useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem("currentUser"));
-        setCurrentUser(storedUser);
-    }, []);
+    const { currentUser } = useAuth();
 
     const deleteUser = (index) => {
         const updatedUsers = users.filter((_, i) => i !== index);
