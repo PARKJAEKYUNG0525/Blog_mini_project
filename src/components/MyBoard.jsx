@@ -104,7 +104,14 @@ const MyBoard = () => {
                         sortedPosts.map((post) => (
                             <div key={post.id}>
                                 <div                               
-                                        onClick={() => setSelectPost(post)}
+                                        onClick={() => {
+                                            if (selectPost && selectPost.id === post.id){
+                                                setSelectPost(null);
+                                            }
+                                            else{
+                                                setSelectPost(post)
+                                            }
+                                        }}
                                         className={`border p-4 rounded shadow flex justify-between items-center cursor-pointer bg-white ${
                                             selectPost && selectPost.id === post.id ? "bg-green-500" : ""
                                         }`}
