@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from './AuthContextPro';
 
@@ -7,6 +7,13 @@ const AllBoard = () => {
     const [selectedPost, setSelectedPost] = useState(null);
     const [search, setSearch] = useState("");
     const { currentUser } = useAuth();
+
+    // 조회수 top 5 게시글 계산
+    const topViewPosts = useMemo(() => {
+        return [...posts]
+            .sort((a, b) => (b.views || 0) - (a.views || 0)) // views 기준 내림차순
+            .slice(0, 5); // 상위 5개
+    }, [posts]);
 
     useEffect(() => {
         const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
@@ -30,77 +37,111 @@ const AllBoard = () => {
     const canEdit = (post) => currentUser?.userId === post.writerId;
     const canDelete = (post) => currentUser && (currentUser.userId === post.writerId || isAdmin);
 
+    // 조회수 증가
+    const handleSelectPost = (post) => {
+        const updated = posts.map((p) => 
+            p.id === post.id ? { ...p, views: p.views + 1 } : p
+        );
+        setPosts(updated);
+        localStorage.setItem("posts", JSON.stringify(updated));
+
+        setSelectPost(post);
+    };
+
+
     return (
-        <div className="flex justify-center items-start pt-16 min-h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded-2xl shadow-lg w-[820px]">
+        <div className="flex justify-center items-start pt-16 min-h-screen bg-gray-100 px-4">
+            <div className="flex w-full max-w-[1200px] gap-6">
 
-                {/* 상단 타이틀 */}
-                <div className="flex justify-between items-center mb-5">
-                    <h1 className="text-xl font-bold text-gray-800">게시글 목록</h1>
-                    <span className="text-xs text-gray-400">총 {filteredPosts.length}개</span>
-                </div>
-
-                {/* 검색창 */}
-                <input
-                    type="text"
-                    placeholder="제목 또는 작성자 검색..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm mb-5 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                />
-
-                {/* 테이블 헤더 */}
-                <div className="flex items-center bg-gray-100 px-3 py-2 rounded-lg mb-1 text-xs font-bold text-gray-500 uppercase tracking-wide">
-                    <span className="w-1/2 text-center">제목</span>
-                    <span className="w-1/4 text-center">작성자</span>
-                    {isAdmin && (<span className="w-1/4 text-center">관리</span>)}
-                </div>
-
-                {/* 게시글 목록 */}
-                <ul>
-                    {filteredPosts.length > 0 ? (
-                        filteredPosts.map((post) => (
-                            <li
-                                key={post.id}
-                                className="flex items-center border-b border-gray-50 px-3 py-2.5 text-sm hover:bg-gray-50 rounded transition-colors"
-                            >
-                                {/* 제목 — 클릭 시 모달 */}
-                                <span
-                                    className="w-1/2 text-center font-medium text-black-700 cursor-pointer hover:text-blue-500 transition-colors truncate px-2"
-                                    onClick={() => setSelectedPost(post)}
+                {/* 좌측: 인기 게시글 (1/3) */}
+                <div className="w-1/3 bg-white p-6 rounded-2xl shadow-lg">
+                    <h2 className="text-lg font-bold text-gray-700 mb-3">인기 게시글</h2>
+                    <ul className="bg-gray-50 rounded-xl p-3 space-y-2">
+                        {topViewPosts.length > 0 ? (
+                            topViewPosts.map((post) => (
+                                <li
+                                    key={post.id}
+                                    className="flex justify-between items-center p-2 bg-white rounded hover:bg-blue-50 cursor-pointer"
+                                    onClick={() => handleSelectPost(post)}
                                 >
-                                    {post.title}
-                                </span>
+                                    <span className="truncate">{post.title}</span>
+                                    <span className="text-xs text-gray-400 ml-2">조회수 : {post.views || 0}</span>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="text-gray-400 text-sm text-center">게시글이 없습니다.</li>
+                        )}
+                    </ul>
+                </div>
 
-                                {/* 작성자 */}
-                                <span className="w-1/4 text-center text-black-500" onClick={() => setSelectedPost(post)}>
-                                {post.writerName}</span>
+                {/* 우측: 전체 게시글 + 검색창 (2/3) */}
+                <div className="w-2/3 bg-white p-6 rounded-2xl shadow-lg flex flex-col">
+                    {/* 상단 타이틀 */}
+                    <div className="flex justify-between items-center mb-4">
+                        <h1 className="text-xl font-bold text-gray-800">전체 게시글</h1>
+                        <span className="text-xs text-gray-400">총 {filteredPosts.length}개</span>
+                    </div>
 
-                                {/* 관리 버튼 */}
-                                <span className="w-1/4 text-center flex justify-center gap-2">
-                                    {canEdit(post) && (
-                                        <Link
-                                            to={`/board/edit/${post.id}`}
-                                            className="bg-blue-500 text-white text-xs px-3 py-1 rounded-full hover:bg-blue-600 transition-colors"
-                                        >
-                                            수정
-                                        </Link>
-                                    )}
-                                    {canDelete(post) && (
-                                        <button
-                                            onClick={() => handleDelete(post.id)}
-                                            className="bg-red-500 text-white text-xs px-3 py-1 rounded-full hover:bg-red-600 transition-colors"
-                                        >
-                                            삭제
-                                        </button>
-                                    )}
-                                </span>
-                            </li>
-                        ))
-                    ) : (
-                        <li className="text-center text-gray-300 py-10 text-sm">검색 결과가 없습니다.</li>
-                    )}
-                </ul>
+                    {/* 검색창 */}
+                    <input
+                        type="text"
+                        placeholder="제목 또는 작성자 검색..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm mb-5 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    />
+
+                    {/* 테이블 헤더 */}
+                    <div className="flex items-center bg-gray-100 px-3 py-2 rounded-lg mb-1 text-xs font-bold text-gray-500 uppercase tracking-wide">
+                        <span className="w-1/2 text-center">제목</span>
+                        <span className="w-1/4 text-center">작성자</span>
+                        {isAdmin && (<span className="w-1/4 text-center">관리</span>)}
+                    </div>
+
+                    {/* 게시글 목록 */}
+                    <ul className="flex-1 overflow-y-auto">
+                        {filteredPosts.length > 0 ? (
+                            filteredPosts.map((post) => (
+                                <li
+                                    key={post.id}
+                                    className="flex items-center border-b border-gray-50 px-3 py-2.5 text-sm hover:bg-gray-50 rounded transition-colors"
+                                >
+                                    <span
+                                        className="w-1/2 text-center font-medium text-black-700 cursor-pointer hover:text-blue-500 transition-colors truncate px-2"
+                                        onClick={() => handleSelectPost(post)}
+                                    >
+                                        {post.title}
+                                    </span>
+
+                                    <span className="w-1/4 text-center text-black-500" onClick={() => setSelectedPost(post)}>
+                                        {post.writerName}
+                                    </span>
+
+                                    <span className="w-1/4 text-center flex justify-center gap-2">
+                                        {canEdit(post) && (
+                                            <Link
+                                                to={`/board/edit/${post.id}`}
+                                                className="bg-blue-500 text-white text-xs px-3 py-1 rounded-full hover:bg-blue-600 transition-colors"
+                                            >
+                                                수정
+                                            </Link>
+                                        )}
+                                        {canDelete(post) && (
+                                            <button
+                                                onClick={() => handleDelete(post.id)}
+                                                className="bg-red-500 text-white text-xs px-3 py-1 rounded-full hover:bg-red-600 transition-colors"
+                                            >
+                                                삭제
+                                            </button>
+                                        )}
+                                    </span>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="text-center text-gray-300 py-10 text-sm">검색 결과가 없습니다.</li>
+                        )}
+                    </ul>
+                </div>
             </div>
 
             {/* 상세 모달 */}
