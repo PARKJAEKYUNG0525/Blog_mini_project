@@ -30,6 +30,17 @@ const AllBoard = () => {
     const canEdit = (post) => currentUser?.userId === post.writerId;
     const canDelete = (post) => currentUser && (currentUser.userId === post.writerId || isAdmin);
 
+    // 조회수 증가
+    const handleSelectPost = (post) => {
+        const updated = posts.map((p) => 
+            p.id === post.id ? { ...p, views: p.views + 1 } : p
+        );
+        setPosts(updated);
+        localStorage.setItem("posts", JSON.stringify(updated));
+
+        setSelectPost(post);
+    };
+
     return (
         <div className="flex justify-center items-start pt-16 min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-2xl shadow-lg w-[820px]">
@@ -67,7 +78,7 @@ const AllBoard = () => {
                                 {/* 제목 — 클릭 시 모달 */}
                                 <span
                                     className="w-1/2 text-center font-medium text-black-700 cursor-pointer hover:text-blue-500 transition-colors truncate px-2"
-                                    onClick={() => setSelectedPost(post)}
+                                    onClick={() => handleSelectPost(post)}
                                 >
                                     {post.title}
                                 </span>

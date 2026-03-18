@@ -37,17 +37,6 @@ const MyBoard = () => {
         return 0;
     });
 
-    // 조회수 증가
-    const handleSelectPost = (post) => {
-        const updated = posts.map((p) => 
-            p.id === post.id ? { ...p, views: p.views + 1 } : p
-        );
-        setPosts(updated);
-        localStorage.setItem("posts", JSON.stringify(updated));
-
-        setSelectPost(post);
-    };
-
     const handleDelete = (id) => {
         const updated = posts.filter((post) => post.id !== id);
         setPosts(updated);
@@ -115,7 +104,7 @@ const MyBoard = () => {
                         sortedPosts.map((post) => (
                             <div key={post.id}>
                                 <div                               
-                                        onClick={() => handleSelectPost(post)}
+                                        onClick={() => setSelectPost(post)}
                                         className={`border p-4 rounded shadow flex justify-between items-center cursor-pointer bg-white ${
                                             selectPost && selectPost.id === post.id ? "bg-green-500" : ""
                                         }`}
