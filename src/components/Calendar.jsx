@@ -4,6 +4,28 @@ import CalendarLib from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useAuth } from "./AuthContextPro";
 
+//useUserData 만들기
+  const useUserData = (key, userKey) => {
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    if (!userKey) return;
+
+    const allData = JSON.parse(localStorage.getItem(key)) || {};
+    setData(allData[userKey] || {});
+  }, [userKey, key]);
+
+  useEffect(() => {
+    if (!userKey) return;
+
+    const allData = JSON.parse(localStorage.getItem(key)) || {};
+    allData[userKey] = data;
+    localStorage.setItem(key, JSON.stringify(allData));
+  }, [data, userKey, key]);
+
+  return [data, setData];
+};
+
 // 날짜 key 생성 함수
 const getDateKey = (date) => {
   const year = date.getFullYear();
@@ -22,64 +44,21 @@ const Calendar = () => {
       alert("로그인이 필요합니다.");
       navigate("/login");
     }
-  }, [currentUser]);
+  }, [currentUser, navigate]);
+
+  if(!currentUser) return null;
+  
 
   //user값 정의
-  const userKey = currentUser?.userId;
-  const storageKey = `schedules_${userKey}`;
+  const userKey = currentUser.userId;
+  
 
   //date 정의
   const [date, setDate] = useState(new Date());
 
-  //출석체크값 userKey로 저장
-  const attendanceKey = `attendance_${userKey}`;
-
-  //localStorage에서 saved로 가져오기
-  const [attendance, setAttendance] = useState(() => {
-    if (!userKey) return {};
-    const saved = localStorage.getItem(attendanceKey);
-    return saved ? JSON.parse(saved) : {};
-  });
-
-  //localStorage에 로그인한 유저가 출석체크버튼을 눌렀을 때 저장값
-  useEffect(() => {
-    if (!currentUser) return;
-    localStorage.setItem(`attendance_${userKey}`, JSON.stringify(attendance));
-  }, [attendance, currentUser]);
-
-  //스케줄키 = 유저키
-  const scheduleKey = `schedules_${userKey}`;
-
-  const [schedules, setSchedules] = useState(() => {
-    if (!userKey) return {};
-    const saved = localStorage.getItem(scheduleKey);
-    return saved ? JSON.parse(saved) : {};
-  });
-
-  useEffect(() => {
-    if (!userKey) return;
-    localStorage.setItem(scheduleKey, JSON.stringify(schedules));
-  }, [schedules, userKey]);
-
-  useEffect(() => {
-    if (!userKey) return;
-    const saved = localStorage.getItem(scheduleKey);
-    setSchedules(saved ? JSON.parse(saved) : {});
-  }, [userKey]);
-
-  // attendance 저장
-  useEffect(() => {
-    if (!userKey) return;
-    const saved = localStorage.getItem(attendanceKey);
-    setAttendance(saved ? JSON.parse(saved) : {});
-  }, [userKey]);
-
-  // 유저 변경 대응
-  useEffect(() => {
-    const saved = localStorage.getItem(attendanceKey);
-    setAttendance(saved ? JSON.parse(saved) : {});
-  }, [attendanceKey]);
-
+  const [attendance, setAttendance] = useUserData("attendance", userKey);
+  const [schedules, setSchedules] = useUserData("schedules", userKey);
+  
   const dateKey = getDateKey(date);
 
   // 캘린더 컴포넌트 (내부화)
@@ -102,7 +81,7 @@ const Calendar = () => {
       <div>
         <p>날짜 : {dateKey}</p>
 
-        <button type="submit" onClick={checkAttendance}>
+        <button onClick={checkAttendance}>
           [출석체크]
         </button>
 
