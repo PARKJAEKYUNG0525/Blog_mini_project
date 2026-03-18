@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+// 메세지 보내는 입력창
 const MessageModal = ({ recipient, onClose, onSend }) => {
     const [text, setText] = useState('');
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+// 받은/보낸 목록 + 상세보기 
 const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
     const [tab, setTab] = useState('received');
     const [selected, setSelected] = useState(null);
@@ -8,13 +9,17 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
     const unreadCount = received.filter(m => !m.read).length;
 
     const handleSelect = (msg) => {
-        if (tab === 'received' && !msg.read) onMarkRead(msg.id);
+        if (tab === 'received' && !msg.read) {
+            onMarkRead(msg.id);
+        }
         setSelected(msg);
     };
 
     const handleDelete = (id) => {
         onDelete(id);
-        if (selected?.id === id) setSelected(null);
+        if (selected?.id === id){
+            setSelected(null);  
+        } 
     };
 
     const switchTab = (next) => {
