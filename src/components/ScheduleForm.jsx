@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 const ScheduleForm = ({ dateKey, schedules, setSchedules, close }) => {
-
   const [text, setText] = useState('');
 
   const addSchedule = () => {
@@ -18,17 +17,30 @@ const ScheduleForm = ({ dateKey, schedules, setSchedules, close }) => {
     });
 
     setText('');
-    close(); // 입력창 닫기
+    close();
   };
 
   return (
-    <div>
+    <div className="flex gap-2">
       <input
+        className="border p-1 rounded w-full"
         value={text}
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            addSchedule();
+          }
+        }}
         placeholder="일정 입력"
       />
-      <button type='submit' onClick={addSchedule}>[추가]</button>
+      <button
+        type="button"
+        className="bg-blue-500 text-white px-3 rounded"
+        onClick={addSchedule}
+      >
+        추가
+      </button>
     </div>
   );
 };

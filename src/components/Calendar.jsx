@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import CalendarLib from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useAuth } from "./AuthContextPro";
+import ScheduleForm from "./ScheduleForm";
 
 //useUserData 만들기
   const useUserData = (key, userKey) => {
@@ -11,14 +12,28 @@ import { useAuth } from "./AuthContextPro";
   useEffect(() => {
     if (!userKey) return;
 
-    const allData = JSON.parse(localStorage.getItem(key)) || {};
+    let allData = {};
+    try {
+      const saved = localStorage.getItem(key);
+      allData = saved ? JSON.parse(saved) : {};
+    } catch {
+      allData = {};
+    }
+
     setData(allData[userKey] || {});
   }, [userKey, key]);
 
   useEffect(() => {
     if (!userKey) return;
 
-    const allData = JSON.parse(localStorage.getItem(key)) || {};
+    let allData = {};
+    try {
+      const saved = localStorage.getItem(key);
+      allData = saved ? JSON.parse(saved) : {};
+    } catch {
+      allData = {};
+    }
+
     allData[userKey] = data;
     localStorage.setItem(key, JSON.stringify(allData));
   }, [data, userKey, key]);
@@ -35,9 +50,14 @@ const getDateKey = (date) => {
 };
 
 const Calendar = () => {
-  //로그인
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+
+  const userKey = currentUser?.userId;
+
+  const [date, setDate] = useState(new Date());
+  const [attendance, setAttendance] = useUserData("attendance", userKey);
+  const [schedules, setSchedules] = useUserData("schedules", userKey);
 
   useEffect(() => {
     if (!currentUser) {
@@ -46,18 +66,7 @@ const Calendar = () => {
     }
   }, [currentUser, navigate]);
 
-  if(!currentUser) return null;
-  
-
-  //user값 정의
-  const userKey = currentUser.userId;
-  
-
-  //date 정의
-  const [date, setDate] = useState(new Date());
-
-  const [attendance, setAttendance] = useUserData("attendance", userKey);
-  const [schedules, setSchedules] = useUserData("schedules", userKey);
+  if (!currentUser) return null;
   
   const dateKey = getDateKey(date);
 
@@ -92,63 +101,33 @@ const Calendar = () => {
 
   // 일정
   const ScheduleList = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [input, setInput] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
-    const todaySchedules = schedules[dateKey] || [];
+  const todaySchedules = schedules?.[dateKey] || [];
 
-    const addSchedule = () => {
-      if (!input.trim()) return;
+  return (
+    <div>
+      <h3>일정</h3>
 
-      const newItem = {
-        id: Date.now(),
-        text: input,
-      };
+      {todaySchedules.map((item) => (
+        <p key={item.id}>{item.text}</p>
+      ))}
 
-      setSchedules({
-        ...schedules,
-        [dateKey]: [...todaySchedules, newItem],
-      });
+      <button onClick={() => setIsOpen(!isOpen)}>[글쓰기]</button>
 
-      setInput("");
-      setIsOpen(false);
-    };
-
-    return (
-      <div>
-        <h3>일정</h3>
-
-        {todaySchedules.map((item) => (
-          <p key={item.id}>{item.text}</p>
-        ))}
-
-        <button onClick={() => setIsOpen(!isOpen)}>[글쓰기]</button>
-
-        {isOpen && (
-          <div className="flex gap-2 mt-2">
-            <input
-              className="border p-1 rounded w-full"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  addSchedule();
-                }
-              }}
-              placeholder="일정 입력"
-            />
-            <button
-              className="bg-blue-500 text-white px-3 rounded"
-              onClick={addSchedule}
-            >
-              추가
-            </button>
-          </div>
-        )}
-      </div>
-    );
-  };
+      {isOpen && (
+        <div className="mt-2">
+          <ScheduleForm
+            dateKey={dateKey}
+            schedules={schedules}
+            setSchedules={setSchedules}
+            close={() => setIsOpen(false)}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 
   return (
     <div className="w-full min-h-screen bg-gray-100 flex justify-center p-10">
