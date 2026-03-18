@@ -60,15 +60,16 @@ const CreateBoard = () => {
 
    
     return (
-         <div className="max-w-xl mx-auto mt-10 bg-white p-6 rounded shadow">
-      <h1 className="text-xl font-bold mb-4">게시글 작성</h1>
+    <div className="max-w-xl mx-auto mt-10 bg-white p-6 rounded shadow">
+        <h1 className="text-xl font-bold mb-4">게시글 작성</h1>
             <form onSubmit={onSubmit1}>
                 <select value={category} onChange={(e)=>setCategory(e.target.value)}
                     className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400">
                     <option value="">카테고리 선택</option>
                     <option value="일상">일상</option>
                     <option value="메모">메모</option>
-                    <option value="자유">자유</option>
+                    <option value="공부">공부</option>
+                    <option value="기타">기타</option>
                 </select> <br></br>
 
                 제목 : <input type='text' className="border w-full p-2 mb-3 rounded" value={title} onChange={(e)=>setTitle(e.target.value)} />
@@ -76,7 +77,7 @@ const CreateBoard = () => {
                 
                 <button className="bg-blue-500 text-white px-4 py-2 rounded">작성 완료</button>
             </form>
-        </div>
+    </div>
     );
 };
 
