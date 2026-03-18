@@ -36,7 +36,8 @@ const ScheduleForm = ({ dateKey, schedules, setSchedules, close }) => {
       />
       <button
         type="button"
-        className="bg-blue-500 text-white px-3 rounded"
+        className="bg-blue-500 text-white px-4 py-1 rounded whitespace-nowrap
+         hover:bg-blue-600 active:scale-95 transition"
         onClick={addSchedule}
       >
         추가

@@ -6,7 +6,7 @@ import { useAuth } from "./AuthContextPro";
 import ScheduleForm from "./ScheduleForm";
 
 //useUserData 만들기
-  const useUserData = (key, userKey) => {
+const useUserData = (key, userKey) => {
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const Calendar = () => {
   }, [currentUser, navigate]);
 
   if (!currentUser) return null;
-  
+
   const dateKey = getDateKey(date);
 
   // 캘린더 컴포넌트 (내부화)
@@ -90,8 +90,12 @@ const Calendar = () => {
       <div>
         <p>날짜 : {dateKey}</p>
 
-        <button onClick={checkAttendance}>
-          [출석체크]
+        <button
+          onClick={checkAttendance}
+          className="bg-blue-500 text-white px-4 py-1 rounded whitespace-nowrap
+             hover:bg-blue-600 active:scale-95 transition"
+        >
+          출석체크
         </button>
 
         <p>상태 : {attendance[dateKey] ? "출석" : "미출석"}</p>
@@ -101,33 +105,39 @@ const Calendar = () => {
 
   // 일정
   const ScheduleList = () => {
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-  const todaySchedules = schedules?.[dateKey] || [];
+    const todaySchedules = schedules?.[dateKey] || [];
 
-  return (
-    <div>
-      <h3>일정</h3>
+    return (
+      <div>
+        <h2>일정</h2>
 
-      {todaySchedules.map((item) => (
-        <p key={item.id}>{item.text}</p>
-      ))}
+        {todaySchedules.map((item) => (
+          <p key={item.id}>{item.text}</p>
+        ))}
 
-      <button onClick={() => setIsOpen(!isOpen)}>[글쓰기]</button>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="bg-blue-500 text-white px-4 py-1 rounded whitespace-nowrap
+             hover:bg-blue-600 active:scale-95 transition"
+        >
+          글쓰기
+        </button>
 
-      {isOpen && (
-        <div className="mt-2">
-          <ScheduleForm
-            dateKey={dateKey}
-            schedules={schedules}
-            setSchedules={setSchedules}
-            close={() => setIsOpen(false)}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
+        {isOpen && (
+          <div className="mt-2">
+            <ScheduleForm
+              dateKey={dateKey}
+              schedules={schedules}
+              setSchedules={setSchedules}
+              close={() => setIsOpen(false)}
+            />
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="w-full min-h-screen bg-gray-100 flex justify-center p-10">
