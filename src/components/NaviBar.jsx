@@ -15,21 +15,26 @@ const NaviBar = () => {
     }
 
     return (
-        <nav className="bg-[#FEE500] shadow-md">
-        <div className="max-w-5xl mx-auto flex justify-between items-center p-4">
-        <div className="flex gap-6 font-semibold text-[#3C1E1E]">
-            <Link to="/" className="hover:text-white transition-colors">홈</Link>
-            <Link to="/memberList" className="hover:text-white transition-colors">회원목록</Link>
-            <Link to="/allBoard" className="hover:text-white transition-colors">전체 게시글</Link>
-            <Link to="/myBoard" className="hover:text-white transition-colors">내 게시글</Link>
-            <Link to="/calendar" className="hover:text-white transition-colors">캘린더</Link>
+        <nav className="bg-gray-100 p-4">
+       <div className="max-w-5xl mx-auto flex justify-between items-center">
+       <div className="flex gap-6 font-semibold text-gray-700">
+       <Link to="/" className="hover:text-black transition-colors hover:underline">홈</Link>
+      <Link to="/memberList" className="hover:text-black transition-colors hover:underline">회원목록</Link>
+      <Link to="/allBoard" className="hover:text-black transition-colors hover:underline">전체 게시글</Link>
+      <Link to="/myBoard" className="hover:text-black transition-colors hover:underline">내 게시글</Link>
+      <Link to="/calendar" className="hover:text-black transition-colors hover:underline">캘린더</Link>
               </div>
 
         <div className="flex gap-4 items-center">
     {currentUser ? (
     <>
       <span>{currentUser.userId}님</span>
-      <button onClick={logout1} className="bg-red-400 text-white px-3 py-1 rounded">로그아웃</button>
+      <button 
+      onClick={logout1} 
+      className="bg-[#1A1F2C] text-white text-xs px-4 py-1.5 rounded-lg font-medium shadow-sm 
+                hover:bg-[#321F1F] transition-all active:scale-95 flex items-center justify-center gap-2">
+      <span>🚪</span> 로그아웃
+    </button>
     </>
   ) : (
     <>

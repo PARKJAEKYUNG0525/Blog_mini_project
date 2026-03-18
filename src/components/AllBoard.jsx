@@ -45,7 +45,7 @@ const AllBoard = () => {
         setPosts(updated);
         localStorage.setItem("posts", JSON.stringify(updated));
 
-        setSelectPost(post);
+        setSelectedPost(post);
     };
 
 
@@ -108,12 +108,12 @@ const AllBoard = () => {
                                 >
                                     <span
                                         className="w-1/2 text-center font-medium text-black-700 cursor-pointer hover:text-blue-500 transition-colors truncate px-2"
-                                        onClick={() => handleSelectPost(post)}
+                                        onClick={() => handleSelectPost(post)} 
                                     >
                                         {post.title}
                                     </span>
 
-                                    <span className="w-1/4 text-center text-black-500" onClick={() => setSelectedPost(post)}>
+                                    <span className="w-1/4 text-center text-black-500" onClick={() => handleSelectPost(post)}>
                                         {post.writerName}
                                     </span>
 
