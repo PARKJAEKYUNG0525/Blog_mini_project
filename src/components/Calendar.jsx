@@ -73,41 +73,39 @@ const Calendar = () => {
   // 캘린더 컴포넌트 (내부화)
   const MyCalendar = () => {
     return (
-      <CalendarLib onChange={setDate} value={date} calendarType="gregory" />
+      <CalendarLib
+        onChange={setDate}
+        value={date}
+        calendarType="gregory"
+        tileContent={({ date, view }) => {
+          if (view !== "month") return null;
+
+          const key = getDateKey(date);
+
+          return attendance[key] ? (
+            <div className="flex justify-center mt-1">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            </div>
+          ) : null;
+        }}
+      />
     );
   };
 
-  // 출석
-  const Attendance = () => {
-    const checkAttendance = () => {
-      setAttendance({
-        ...attendance,
-        [dateKey]: true,
-      });
-    };
-
-    return (
-      <div>
-        <p>날짜 : {dateKey}</p>
-
-        <button
-          onClick={checkAttendance}
-          className="bg-blue-500 text-white px-4 py-1 rounded whitespace-nowrap
-             hover:bg-blue-600 active:scale-95 transition"
-        >
-          출석체크
-        </button>
-
-        <p>상태 : {attendance[dateKey] ? "출석" : "미출석"}</p>
-      </div>
-    );
-  };
+  
 
   // 일정
   const ScheduleList = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const todaySchedules = schedules?.[dateKey] || [];
+
+    const checkAttendance = () => {
+    setAttendance({
+      ...attendance,
+      [dateKey]: true,
+    });
+  };
 
     return (
       <div>
@@ -117,13 +115,23 @@ const Calendar = () => {
           <p key={item.id}>{item.text}</p>
         ))}
 
+        <div className="flex gap-2 mt-2">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="bg-blue-500 text-white px-4 py-1 rounded whitespace-nowrap
-             hover:bg-blue-600 active:scale-95 transition"
+          hover:bg-blue-600 active:scale-95 transition"
         >
           글쓰기
         </button>
+
+        <button
+          onClick={checkAttendance}
+          className="bg-green-500 text-white px-4 py-1 rounded whitespace-nowrap
+          hover:bg-green-600 active:scale-95 transition"
+        >
+          출석체크
+        </button>
+      </div>
 
         {isOpen && (
           <div className="mt-2">
@@ -156,11 +164,6 @@ const Calendar = () => {
             <p className="text-lg font-semibold">
               {new Date().toISOString().split("T")[0]}
             </p>
-          </div>
-
-          {/* 출석 */}
-          <div className="bg-gray-50 p-4 rounded-xl shadow-sm">
-            <Attendance />
           </div>
 
           {/* 일정 */}
