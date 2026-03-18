@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from './AuthContextPro';
-import useMessages from './useMessages';
-import MessageModal from './MessageModal';
+import useMessages from './Usemessages';
+import MessageModal from './Messagemodal';
 import MessageBox from './Messagebox';
 
 const MemberList = () => {
