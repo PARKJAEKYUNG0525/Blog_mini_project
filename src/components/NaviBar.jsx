@@ -15,7 +15,7 @@ const NaviBar = () => {
     }
 
     return (
-         <nav className="bg-orange-200 shadow-md">
+         <nav className="bg-green-200 shadow-md">
         <div className="max-w-5xl mx-auto flex justify-between items-center p-4">
         <div className="flex gap-6 font-semibold">
             <Link to="/">홈</Link>

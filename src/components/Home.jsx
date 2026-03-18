@@ -1,12 +1,12 @@
-import img1 from '../img/1.png';
-import img2 from '../img/2.png';
-import img3 from '../img/3.png';
+import img11 from '../img/11.png';
+import img22 from '../img/22.avif';
+import img33 from '../img/33.avif';
 import { useAuth } from './AuthContextPro';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 
 const Home = () => {
-    const images = [img1, img2, img3];
+    const images = [img11, img22, img33];
     const [currentIndex, setCurrentIndex] = useState(0);
     const { currentUser } = useAuth();
     const navigate = useNavigate(); 
