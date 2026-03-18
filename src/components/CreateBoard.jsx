@@ -7,6 +7,8 @@ const CreateBoard = () => {
     const [title, setTitle]=useState('');
     //2. 내용 상태 초기화
     const [content, setContent]=useState('');
+    //카테고리 초기화
+    const [category, setCategory]=useState('');
 
     //3. 네비게이트(코드내에서 페이지 이동)
     const navigator=useNavigate();
@@ -38,6 +40,7 @@ const CreateBoard = () => {
         id:Date.now(),
         title,
         content,
+        category,
         writerId:currentUser.userId, //현재 로그인한 사용자 아이디 추가해서 배열에 삽입
         writerName: currentUser.name,
     }
@@ -60,6 +63,14 @@ const CreateBoard = () => {
          <div className="max-w-xl mx-auto mt-10 bg-white p-6 rounded shadow">
       <h1 className="text-xl font-bold mb-4">게시글 작성</h1>
             <form onSubmit={onSubmit1}>
+                <select value={category} onChange={(e)=>setCategory(e.target.value)}
+                    className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <option value="">카테고리 선택</option>
+                    <option value="일상">일상</option>
+                    <option value="메모">메모</option>
+                    <option value="자유">자유</option>
+                </select> <br></br>
+
                 제목 : <input type='text' className="border w-full p-2 mb-3 rounded" value={title} onChange={(e)=>setTitle(e.target.value)} />
                 내용 : <textarea  className="border w-full p-2 mb-3 rounded h-40" value={content} onChange={(e)=>setContent(e.target.value)} />
                 
