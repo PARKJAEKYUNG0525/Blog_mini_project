@@ -15,15 +15,15 @@ const NaviBar = () => {
     }
 
     return (
-         <nav className="bg-green-200 shadow-md">
+        <nav className="bg-[#FEE500] shadow-md">
         <div className="max-w-5xl mx-auto flex justify-between items-center p-4">
-        <div className="flex gap-6 font-semibold">
-            <Link to="/">홈</Link>
-            <Link to="/memberList">회원목록</Link>
-            <Link to='/allBoard'> 전체 게시글 </Link>
-            <Link to="/myBoard"> 내 게시글 </Link>
-            <Link to='/calendar'> 캘린더 </Link>
-            </div>
+        <div className="flex gap-6 font-semibold text-[#3C1E1E]">
+            <Link to="/" className="hover:text-white transition-colors">홈</Link>
+            <Link to="/memberList" className="hover:text-white transition-colors">회원목록</Link>
+            <Link to="/allBoard" className="hover:text-white transition-colors">전체 게시글</Link>
+            <Link to="/myBoard" className="hover:text-white transition-colors">내 게시글</Link>
+            <Link to="/calendar" className="hover:text-white transition-colors">캘린더</Link>
+              </div>
 
         <div className="flex gap-4 items-center">
     {currentUser ? (
