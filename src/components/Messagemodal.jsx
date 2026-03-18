@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
-// 메세지 보내는 입력창
+// 특정 사용자(recipient)에게 메시지 보내는 입력창
 const MessageModal = ({ recipient, onClose, onSend }) => {
     const [text, setText] = useState('');
 
+    // 공백 확인, 부모로 메시지 전달
     const handleSend = () => {
         if (!text.trim()) { alert('메세지를 입력해주세요.'); return; }
         onSend(recipient, text.trim());

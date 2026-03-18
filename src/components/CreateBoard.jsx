@@ -41,8 +41,9 @@ const CreateBoard = () => {
         title,
         content,
         category,
-        writerId:currentUser.userId, //현재 로그인한 사용자 아이디 추가해서 배열에 삽입
+        writerId:currentUser.userId,  //현재 로그인한 사용자 아이디 추가해서 배열에 삽입
         writerName: currentUser.name,
+        views: 0,  // 조회수 카운트
     }
     //posts 에다 newPost추가
     posts.push(newPost);
