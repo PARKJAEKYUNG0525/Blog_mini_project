@@ -13,11 +13,12 @@ const MemberList = () => {
     const [modalTarget, setModalTarget] = useState(null);
     const [showMessageBox, setShowMessageBox] = useState(false);
 
-    // ✅ 메세지 관련 로직은 훅에서 전부 처리
     const { received, sent, unreadCount, sendMessage, markRead, deleteMessage } = useMessages(currentUser?.userId);
 
     useEffect(() => {
-        if (!currentUser) { alert("로그인이 필요합니다."); navigator('/login'); }
+        if (!currentUser) { 
+            alert("로그인이 필요합니다."); navigator('/login'); 
+        }
     }, []);
 
     const deleteUser = (index) => {

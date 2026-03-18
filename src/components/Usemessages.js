@@ -1,9 +1,8 @@
 import { useState, useCallback } from 'react';
 
-const STORAGE_KEY = "messages";
-
-const loadMessages = () => JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-const saveMessages = (msgs) => localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs));
+// 데이터가 어떻게 저장 및 관리 하는지 
+const loadMessages = () => JSON.parse(localStorage.getItem("messages")) || [];
+const saveMessages = (msgs) => localStorage.setItem("messages", JSON.stringify(msgs));
 
 const useMessages = (currentUserId) => {
     const [messages, setMessages] = useState(loadMessages);

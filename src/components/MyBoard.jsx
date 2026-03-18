@@ -9,10 +9,12 @@ const MyBoard = () => {
     const navigator = useNavigate();
     const [selectPost, setSelectPost] = useState(null);
 
-    if (!currentUser) {
-        alert("로그인이 필요합니다.");
-        navigator('/login');
-    }
+    useEffect(() => {
+        if (!currentUser) {
+            alert("로그인이 필요합니다.");
+            navigator('/login');
+        }
+    }, [currentUser]);
 
     useEffect(() => {
         const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];

@@ -53,7 +53,7 @@ const AllBoard = () => {
                 <div className="flex items-center bg-gray-100 px-3 py-2 rounded-lg mb-1 text-xs font-bold text-gray-500 uppercase tracking-wide">
                     <span className="w-1/2 text-center">제목</span>
                     <span className="w-1/4 text-center">작성자</span>
-                    <span className="w-1/4 text-center">관리</span>
+                    {isAdmin && (<span className="w-1/4 text-center">관리</span>)}
                 </div>
 
                 {/* 게시글 목록 */}
@@ -66,14 +66,15 @@ const AllBoard = () => {
                             >
                                 {/* 제목 — 클릭 시 모달 */}
                                 <span
-                                    className="w-1/2 text-center font-medium text-gray-700 cursor-pointer hover:text-blue-500 transition-colors truncate px-2"
+                                    className="w-1/2 text-center font-medium text-black-700 cursor-pointer hover:text-blue-500 transition-colors truncate px-2"
                                     onClick={() => setSelectedPost(post)}
                                 >
                                     {post.title}
                                 </span>
 
                                 {/* 작성자 */}
-                                <span className="w-1/4 text-center text-gray-500">{post.writerName}</span>
+                                <span className="w-1/4 text-center text-black-500" onClick={() => setSelectedPost(post)}>
+                                {post.writerName}</span>
 
                                 {/* 관리 버튼 */}
                                 <span className="w-1/4 text-center flex justify-center gap-2">
