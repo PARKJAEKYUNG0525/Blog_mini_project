@@ -92,8 +92,6 @@ const Calendar = () => {
     );
   };
 
-  
-
   // 일정
   const ScheduleList = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -101,11 +99,16 @@ const Calendar = () => {
     const todaySchedules = schedules?.[dateKey] || [];
 
     const checkAttendance = () => {
-    setAttendance({
-      ...attendance,
-      [dateKey]: true,
-    });
-  };
+      const newAttendance = { ...attendance };
+
+      if (newAttendance[dateKey]) {
+        delete newAttendance[dateKey]; // 출석 취소
+      } else {
+        newAttendance[dateKey] = true; // 출석 체크
+      }
+
+      setAttendance(newAttendance);
+    };
 
     return (
       <div>
@@ -116,22 +119,22 @@ const Calendar = () => {
         ))}
 
         <div className="flex gap-2 mt-2">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="bg-blue-500 text-white px-4 py-1 rounded whitespace-nowrap
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="bg-blue-500 text-white px-4 py-1 rounded whitespace-nowrap
           hover:bg-blue-600 active:scale-95 transition"
-        >
-          글쓰기
-        </button>
+          >
+            글쓰기
+          </button>
 
-        <button
-          onClick={checkAttendance}
-          className="bg-green-500 text-white px-4 py-1 rounded whitespace-nowrap
+          <button
+            onClick={checkAttendance}
+            className="bg-green-500 text-white px-4 py-1 rounded whitespace-nowrap
           hover:bg-green-600 active:scale-95 transition"
-        >
-          출석체크
-        </button>
-      </div>
+          >
+            출석체크
+          </button>
+        </div>
 
         {isOpen && (
           <div className="mt-2">
