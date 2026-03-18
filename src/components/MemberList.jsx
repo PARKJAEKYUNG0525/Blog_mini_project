@@ -28,7 +28,7 @@ const MemberList = () => {
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded shadow w-96">
+            <div className="bg-white p-8 rounded shadow w-[700px]">
                 <h1 className="text-xl font-bold mb-4 text-center">회원 목록</h1>
 
                 {/* 테이블 헤더 */}
