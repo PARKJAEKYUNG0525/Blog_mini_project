@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CalendarLib from "react-calendar";
-// import "react-calendar/dist/Calendar.css";
+import "react-calendar/dist/Calendar.css";
 import { useAuth } from "./AuthContextPro";
 import ScheduleForm from "./ScheduleForm";
 import './Calendar.css';
