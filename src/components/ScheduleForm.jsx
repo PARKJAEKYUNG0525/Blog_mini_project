@@ -17,7 +17,9 @@ const ScheduleForm = ({ dateKey, schedules, setSchedules, close }) => {
     });
 
     setText('');
+    if (typeof close === 'function') {
     close();
+  }
   };
 
   return (
