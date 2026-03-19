@@ -4,7 +4,7 @@ import CalendarLib from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
 import { useAuth } from "./AuthContextPro";
 import ScheduleForm from "./ScheduleForm";
-import './calendar.css';
+import './Calendar.css';
 
 //useUserData 만들기
 const useUserData = (key, userKey) => {
