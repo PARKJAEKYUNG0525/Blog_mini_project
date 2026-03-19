@@ -76,6 +76,7 @@ const Calendar = () => {
             onChange={setDate}
             value={date}
             calendarType="gregory"
+            locale="en-US"
             formatDay={(locale, date) => date.getDate()}
             tileContent={({ date, view }) => {
               if (view !== "month") return null;
@@ -94,7 +95,7 @@ const Calendar = () => {
           <div className="bg-white p-8 rounded-[32px] border border-gray-50">
             <p className="text-xs font-bold text-gray-400 mb-2 uppercase tracking-[0.2em]">Selected Date</p>
             <p className="text-3xl font-black text-gray-900 leading-tight">
-              {date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
           </div>
 
@@ -134,10 +135,10 @@ const Calendar = () => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full py-3 bg-gray-100 text-gray-700 rounded-2xl font-semibold hover:bg-gray-200 transition-all"
               >
-                {isOpen ? "Close" : "To add a schedule"}
+                {isOpen ? "Close" : "To Add a Schedule"}
               </button>
 
-              {/* ✅ 3. isOpen이 true일 때만 ScheduleForm이 보임 */}
+              {/* isOpen이 true일 때만 ScheduleForm이 보임 */}
               {isOpen && (
                 <div className="mt-2 p-4 border rounded-2xl bg-gray-50 animate-in fade-in zoom-in duration-200">
                   <ScheduleForm
