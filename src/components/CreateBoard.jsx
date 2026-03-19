@@ -1,107 +1,120 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContextPro';
 
-const BoardList = () => {
-    const [posts, setPosts] = useState([]);
-    const [currentUser, setCurrentUser] = useState(null);
+const CreateBoard = () => {
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const navigate = useNavigate();
+    const { currentUser } = useAuth();
 
+    // Ensure user is logged in
     useEffect(() => {
-        const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-        setPosts(storedPosts);
+        if (!currentUser) {
+            alert("Please login to create a post.");
+            navigate('/login');
+        }
+    }, [currentUser, navigate]);
 
-        const storedUser = JSON.parse(localStorage.getItem("currentUser")) || null;
-        setCurrentUser(storedUser);
-    }, []);
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    const handleDelete = (id) => {
-        if (!window.confirm("정말 삭제하시겠습니까?")) return; // 사용자 확인 추가
-        const updated = posts.filter((post) => post.id !== id);
-        setPosts(updated);
-        localStorage.setItem("posts", JSON.stringify(updated));
+        if (!title.trim() || !content.trim()) {
+            alert("Please fill in both title and content.");
+            return;
+        }
+
+        const posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+        const newPost = {
+            id: Date.now(),
+            title,
+            content,
+            writerId: currentUser.userId,
+            writerName: currentUser.name,
+            views: 0,
+        };
+
+        posts.push(newPost);
+        localStorage.setItem("posts", JSON.stringify(posts));
+
+        setTitle("");
+        setContent("");
+        navigate('/myBoard');
     };
 
     return (
-        /* 전체 배경: 화이트, 여백 확보 */
-        <div className="min-h-screen bg-white pt-20 px-4">
-            <div className="max-w-6xl mx-auto flex gap-12">
+        <div className="flex justify-center items-start pt-20 min-h-screen bg-gray-50 px-4">
+            <div className="w-full max-w-[800px]">
                 
-                {/* 좌측: 회원 정보 섹션 (심플 카드 디자인) */}
-                <div className="w-64 flex flex-col items-center border border-gray-100 p-8 rounded-2xl h-fit sticky top-24">
-                    <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100">
-                         {/* 기본 아바타 아이콘 */}
-                         <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                {/* Header Section */}
+                <div className="mb-8 flex justify-between items-end px-2">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900">Create Post</h1>
+                        <p className="text-sm text-gray-400 mt-1">Share your thoughts with the community</p>
                     </div>
-                    <h2 className="font-bold text-lg text-gray-800 mb-1">{currentUser?.name || "사용자"}</h2>
-                    <span className="text-xs text-gray-400 mb-6 font-medium">회원</span>
-                    
-                    <div className="w-full space-y-3 border-t border-gray-50 pt-6 text-sm">
-                        <div className="flex justify-between">
-                            <span className="text-gray-400 font-medium">이름</span>
-                            <span className="text-gray-700">{currentUser?.name}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400 font-medium">생년월일</span>
-                            <span className="text-gray-700">{currentUser?.birthDate}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400 font-medium">게시글</span>
-                            <span className="font-bold text-green-500">
-                                {posts.filter(p => p.writerId === currentUser?.userId).length}개
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <Link to="/board/create" className="mt-8 w-full bg-green-500 text-white px-3 py-2.5 rounded-xl text-sm font-bold text-center hover:bg-green-600 transition-all shadow-sm">
-                        글쓰기
-                    </Link>
+                    <span className="text-[10px] font-bold text-blue-500 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full">
+                        New Draft
+                    </span>
                 </div>
 
-                {/* 우측: 게시글 목록 섹션 */}
-                <div className="flex-1">
-                    <div className="flex justify-between items-end mb-8 border-b border-gray-50 pb-5">
-                        <h1 className="text-2xl font-bold text-gray-900">게시글 목록</h1>
-                        <span className="text-sm text-gray-400 font-medium">Total: {posts.length}</span>
-                    </div>
-                    
-                    <div className="space-y-4">
-                        {posts.length > 0 ? (
-                            posts.map((post) => (
-                                <div key={post.id} className="group border border-gray-100 p-6 rounded-2xl hover:bg-gray-50/50 transition-all">
-                                    <div className="flex justify-between items-start mb-2">
-                                        <div className="flex-1">
-                                            <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-2">
-                                                {post.title}
-                                            </h3>
-                                            <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">
-                                                {post.content}
-                                            </p>
-                                        </div>
+                {/* Form Card */}
+                <div className="bg-white rounded-3xl shadow-sm p-10 border border-gray-100">
+                    <form onSubmit={handleSubmit} className="space-y-8">
+                        
+                        {/* Title Input */}
+                        <div>
+                            <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">
+                                Post Title
+                            </label>
+                            <input 
+                                type="text"
+                                className="w-full bg-gray-50 border border-transparent rounded-2xl px-6 py-4 text-gray-800 focus:bg-white focus:border-blue-100 focus:ring-4 focus:ring-blue-50/50 transition-all outline-none font-semibold text-lg placeholder:text-gray-300"
+                                value={title} 
+                                placeholder="Enter a catchy title..."
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </div>
 
-                                        {/* 작성자 본인일 경우 수정/삭제 노출 */}
-                                        {currentUser && currentUser.userId === post.writerId && (
-                                            <div className="flex gap-3 ml-4">
-                                                <Link to={`/board/edit/${post.id}`} className="text-xs font-bold text-blue-400 hover:text-blue-600">수정</Link>
-                                                <button onClick={() => handleDelete(post.id)} className="text-xs font-bold text-red-300 hover:text-red-500">삭제</button>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="flex items-center gap-2 mt-4 text-[11px] text-gray-400 font-medium">
-                                        <span>작성자: {post.writerName || currentUser?.name}</span>
-                                        <span>•</span>
-                                        <span>{new Date(post.id).toLocaleDateString()}</span>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="py-20 text-center text-gray-300 italic border border-dashed border-gray-100 rounded-3xl">
-                                등록된 게시물이 없습니다.
-                            </div>
-                        )}
-                    </div>
+                        {/* Content Textarea */}
+                        <div>
+                            <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">
+                                Content Description
+                            </label>
+                            <textarea 
+                                className="w-full bg-gray-50 border border-transparent rounded-3xl px-6 py-5 text-gray-800 focus:bg-white focus:border-blue-100 focus:ring-4 focus:ring-blue-50/50 transition-all outline-none h-80 resize-none leading-relaxed text-base placeholder:text-gray-300"
+                                value={content} 
+                                placeholder="What's on your mind?"
+                                onChange={(e) => setContent(e.target.value)}
+                            ></textarea>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-50">
+                            <button 
+                                type="button"
+                                onClick={() => navigate(-1)}
+                                className="bg-gray-100 text-gray-500 px-8 py-3 rounded-xl text-sm font-bold hover:bg-gray-200 transition-all active:scale-95"
+                            >
+                                Back
+                            </button>
+                            <button 
+                                type="submit"
+                                className="bg-gray-900 text-white px-10 py-3 rounded-xl text-sm font-bold hover:bg-gray-800 transition-all shadow-lg shadow-gray-200 active:scale-95"
+                            >
+                                Publish Post
+                            </button>
+                        </div>
+                    </form>
                 </div>
+
+                {/* Footer Note */}
+                <p className="text-center text-gray-300 text-[11px] mt-8 uppercase tracking-widest font-medium">
+                    Please follow the community guidelines before posting.
+                </p>
             </div>
         </div>
     );
 };
 
-export default BoardList;
+export default CreateBoard;

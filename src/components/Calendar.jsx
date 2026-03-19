@@ -84,7 +84,7 @@ const Calendar = () => {
 
           return attendance[key] ? (
             <div className="flex justify-center mt-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <div className="w-2 h-2 bg-gray-900 rounded-full"></div>
             </div>
           ) : null;
         }}
@@ -112,7 +112,7 @@ const Calendar = () => {
 
     return (
       <div>
-        <h2>일정</h2>
+        <h2>Schedule</h2>
 
         {todaySchedules.map((item) => (
           <p key={item.id}>{item.text}</p>
@@ -121,18 +121,16 @@ const Calendar = () => {
         <div className="flex gap-2 mt-2">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="bg-blue-500 text-white px-4 py-1 rounded whitespace-nowrap
-          hover:bg-blue-600 active:scale-95 transition"
+            className="bg-gray-900 text-white text-[13px] px-2.5 py-1.5 rounded-lg shadow-sm hover:bg-gray-800 transition-all active:scale-95 font-medium inline-block"
           >
-            글쓰기
+            WRITE
           </button>
 
           <button
             onClick={checkAttendance}
-            className="bg-green-500 text-white px-4 py-1 rounded whitespace-nowrap
-          hover:bg-green-600 active:scale-95 transition"
+            className="bg-gray-900 text-white text-[13px] px-2.5 py-1.5 rounded-lg shadow-sm hover:bg-gray-800 transition-all active:scale-95 font-medium inline-block"
           >
-            출석체크
+            Attendance Check
           </button>
         </div>
 

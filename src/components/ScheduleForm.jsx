@@ -32,15 +32,14 @@ const ScheduleForm = ({ dateKey, schedules, setSchedules, close }) => {
             addSchedule();
           }
         }}
-        placeholder="일정 입력"
+        placeholder="Enter Schedule"
       />
       <button
         type="button"
-        className="bg-blue-500 text-white px-4 py-1 rounded whitespace-nowrap
-         hover:bg-blue-600 active:scale-95 transition"
+        className="bg-gray-900 text-white text-[13px] px-2.5 py-1.5 rounded-lg shadow-sm hover:bg-gray-800 transition-all active:scale-95 font-medium inline-block"
         onClick={addSchedule}
       >
-        추가
+        ADD
       </button>
     </div>
   );
