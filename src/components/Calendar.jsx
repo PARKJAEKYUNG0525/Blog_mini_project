@@ -52,12 +52,11 @@ const Calendar = () => {
   const [attendance, setAttendance] = useUserData("attendance", userKey);
   const [schedules, setSchedules] = useUserData("schedules", userKey);
   
-  // ✅ 1. 여기서 isOpen 상태를 정의해줘야 에러가 안 납니다!
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (!currentUser) {
-      alert("로그인이 필요합니다.");
+      alert("Please login to access this page.");
       navigate("/login");
     }
   }, [currentUser, navigate]);
@@ -110,7 +109,7 @@ const Calendar = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-400 text-sm py-10 text-center">작성된 일정이 없습니다.</p>
+                <p className="text-gray-400 text-sm py-10 text-center">There is no created schedule.</p>
               )}
             </div>
 
@@ -127,15 +126,15 @@ const Calendar = () => {
                     : "bg-gray-900 text-white hover:bg-black shadow-lg"
                 }`}
               >
-                {attendance[dateKey] ? "출석 체크 완료 ✓" : "오늘의 출석 체크"}
+                {attendance[dateKey] ? "Completed ✓" : "attendance check"}
               </button>
               
-              {/* ✅ 2. WRITE 버튼: 클릭하면 입력창이 열림 */}
+              {/* WRITE 버튼: 클릭하면 입력창이 열림 */}
               <button 
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full py-3 bg-gray-100 text-gray-700 rounded-2xl font-semibold hover:bg-gray-200 transition-all"
               >
-                {isOpen ? "닫기" : "일정 추가하기"}
+                {isOpen ? "Close" : "To add a schedule"}
               </button>
 
               {/* ✅ 3. isOpen이 true일 때만 ScheduleForm이 보임 */}
