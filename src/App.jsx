@@ -10,7 +10,7 @@ import MemberList from "./components/MemberList";
 import EditBoard from "./components/EditBoard";
 import AllBoard from './components/AllBoard';
 import Calendar from './components/Calendar';
-import "react-calendar/dist/Calendar.css"
+// import "react-calendar/dist/Calendar.css"
 import MyBoard from './components/MyBoard';
 
 const App = () => {
