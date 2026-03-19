@@ -35,7 +35,7 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
                     <button
                         onClick={() => switchTab('received')}
                         className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all
-                            ${tab === 'received' ? 'bg-blue-500 text-white' : 'text-gray-500 hover:bg-gray-100'}`}
+                            ${tab === 'received' ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-100'}`}
                     >
                         Received Messages
                         {unreadCount > 0 && (
@@ -47,7 +47,7 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
                     <button
                         onClick={() => switchTab('sent')}
                         className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all
-                            ${tab === 'sent' ? 'bg-blue-500 text-white' : 'text-gray-500 hover:bg-gray-100'}`}
+                            ${tab === 'sent' ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-100'}`}
                     >
                         Sent Messages
                     </button>
@@ -70,8 +70,8 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
                                     ${selected?.id === msg.id ? 'bg-blue-50' : 'bg-white'}`}
                             >
                                 <div className="flex items-center justify-between">
-                                    <span className="text-xs font-semibold text-blue-600 truncate">
-                                        {tab === 'received' ? `📨 ${msg.from}` : `📤 ${msg.to}`}
+                                    <span className="text-xs font-semibold text-gray-900 truncate">
+                                        {tab === 'received' ? `${msg.from}` : `${msg.to}`}
                                     </span>
                                     {tab === 'received' && !msg.read && (
                                         <span className="w-2 h-2 rounded-full bg-red-400 flex-shrink-0 ml-1" />
@@ -97,7 +97,7 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
                                 </span>
                                 <button
                                     onClick={() => handleDelete(selected.id)}
-                                    className="text-[10px] text-red-400 hover:text-red-600 border border-red-200 rounded px-1.5 py-0.5"
+                                    className="text-[10px] text-gray-900 hover:text-gray-900 border border-gray-900 rounded px-1.5 py-0.5"
                                 >
                                     DELETE
                                 </button>
