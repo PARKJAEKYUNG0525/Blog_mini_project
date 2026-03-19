@@ -121,7 +121,7 @@ const AllBoard = () => {
                                         {canEdit(post) && (
                                             <Link
                                                 to={`/board/edit/${post.id}`}
-                                                className="bg-blue-500 text-white text-xs px-3 py-1 rounded-full hover:bg-blue-600 transition-colors"
+                                                className="bg-gray-900 text-white text-[11px] px-3.5 py-1.5 rounded-lg shadow-sm hover:bg-gray-800 transition-all active:scale-95 font-medium inline-block"
                                             >
                                                 수정
                                             </Link>
@@ -129,7 +129,7 @@ const AllBoard = () => {
                                         {canDelete(post) && (
                                             <button
                                                 onClick={() => handleDelete(post.id)}
-                                                className="bg-red-500 text-white text-xs px-3 py-1 rounded-full hover:bg-red-600 transition-colors"
+                                                className="bg-gray-100 text-gray-500 text-[11px] px-3.5 py-1.5 rounded-lg hover:bg-gray-200 hover:text-gray-700 transition-all active:scale-95 font-medium"
                                             >
                                                 삭제
                                             </button>

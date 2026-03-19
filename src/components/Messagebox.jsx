@@ -37,7 +37,7 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
                         className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all
                             ${tab === 'received' ? 'bg-blue-500 text-white' : 'text-gray-500 hover:bg-gray-100'}`}
                     >
-                        받은 메세지
+                        Received Messages
                         {unreadCount > 0 && (
                             <span className="ml-1.5 bg-red-500 text-white text-[10px] rounded-full px-1.5 py-0.5">
                                 {unreadCount}
@@ -49,7 +49,7 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
                         className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all
                             ${tab === 'sent' ? 'bg-blue-500 text-white' : 'text-gray-500 hover:bg-gray-100'}`}
                     >
-                        보낸 메세지
+                        Sent Messages
                     </button>
                 </div>
                 <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-lg font-bold">×</button>
@@ -60,7 +60,7 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
                 {/* 목록 */}
                 <ul className="w-1/2 border-r border-gray-100 overflow-y-auto">
                     {list.length === 0 ? (
-                        <li className="text-center text-gray-300 text-xs py-10">메세지가 없습니다</li>
+                        <li className="text-center text-gray-300 text-xs py-10">I don't have a message</li>
                     ) : (
                         list.map(msg => (
                             <li
@@ -91,15 +91,15 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
                             <div className="flex items-center justify-between">
                                 <span className="text-xs text-gray-400">
                                     {tab === 'received'
-                                        ? <>보낸 사람: <strong className="text-gray-700">{selected.from}</strong></>
-                                        : <>받는 사람: <strong className="text-gray-700">{selected.to}</strong></>
+                                        ? <>Sender: <strong className="text-gray-700">{selected.from}</strong></>
+                                        : <>Recipient: <strong className="text-gray-700">{selected.to}</strong></>
                                     }
                                 </span>
                                 <button
                                     onClick={() => handleDelete(selected.id)}
                                     className="text-[10px] text-red-400 hover:text-red-600 border border-red-200 rounded px-1.5 py-0.5"
                                 >
-                                    삭제
+                                    DELETE
                                 </button>
                             </div>
                             <p className="text-[10px] text-gray-300">{selected.createdAt}</p>
@@ -109,7 +109,7 @@ const MessageBox = ({ received, sent, onClose, onMarkRead, onDelete }) => {
                         </div>
                     ) : (
                         <div className="flex items-center justify-center h-full text-xs text-gray-300">
-                            메세지를 선택하세요
+                            Please select a message.
                         </div>
                     )}
                 </div>
