@@ -38,8 +38,8 @@ const NaviBar = () => {
     </>
   ) : (
     <>
-      <Link to="/login">로그인</Link>
-      <Link to="/join">회원가입</Link>
+      <Link to="/login">LOGIN</Link>
+      <Link to="/join">SIGN UP</Link>
     </>
   )}
 </div>

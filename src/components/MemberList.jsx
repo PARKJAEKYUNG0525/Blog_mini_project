@@ -34,7 +34,7 @@ const MemberList = () => {
     const isMe = (user) => user.userId === currentUser.userId;
 
     return (
-        <div className="flex justify-center items-start pt-16 min-h-screen bg-gray-100 px-4">
+        <div className="flex justify-center items-start pt-16 min-h-screen bg-gray-50 px-4">
             <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-sm w-full max-w-[820px]">
 
                 {/* Top: Title + Inbox Button */}
@@ -115,7 +115,7 @@ const MemberList = () => {
                                     <span className="w-1/5 text-center">
                                         <button
                                             onClick={() => deleteUser(index)}
-                                            className="opacity-0 group-hover:opacity-100 bg-red-50 text-red-500 text-xs px-3 py-1.5 rounded-lg hover:bg-red-500 hover:text-white transition-all"
+                                            className="bg-gray-100 text-gray-500 text-[11px] px-3.5 py-1.5 rounded-lg hover:bg-gray-200 hover:text-gray-700 transition-all active:scale-95 font-medium"
                                         >
                                             Delete
                                         </button>

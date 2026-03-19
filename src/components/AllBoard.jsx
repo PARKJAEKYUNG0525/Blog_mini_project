@@ -50,7 +50,7 @@ const AllBoard = () => {
 
 
     return (
-        <div className="flex justify-center items-start pt-16 min-h-screen bg-[#949494] px-4">
+        <div className="flex justify-center items-start pt-16 min-h-screen bg-gray-50 px-4">
             <div className="flex w-full max-w-[1200px] gap-6">
 
                 {/* 좌측: 인기 게시글 (1/3) */}
@@ -181,22 +181,14 @@ const AllBoard = () => {
                             {canEdit(selectedPost) && (
                                 <Link
                                     to={`/board/edit/${selectedPost.id}`}
-                                    className="bg-blue-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                                    className="bg-gray-900 text-white text-[11px] px-3.5 py-1.5 rounded-lg shadow-sm hover:bg-gray-800 transition-all active:scale-95 font-medium inline-block"
                                 >
                                     Edit
                                 </Link>
                             )}
-                            {canDelete(selectedPost) && (
-                                <button
-                                    onClick={() => handleDelete(selectedPost.id)}
-                                    className="bg-red-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
-                                >
-                                    Delete
-                                </button>
-                            )}
                             <button
                                 onClick={() => setSelectedPost(null)}
-                                className="bg-gray-100 text-gray-600 text-sm px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="bg-gray-100 text-gray-600 text-[11px] px-3.5 py-1.5 rounded-lg hover:bg-gray-200 transition-colors"
                             >
                                 Close
                             </button>
