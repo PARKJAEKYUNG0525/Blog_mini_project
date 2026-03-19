@@ -137,7 +137,7 @@ const AllBoard = () => {
                 </div>
 
                 {/* Right: All Posts + Search (2/3) */}
-                <div className="w-2/3 bg-white p-6 rounded-2xl flex flex-col h-[470px]">
+                <div className="w-2/3 bg-white p-6 rounded-2xl flex flex-col h-[500px]">
                     <div className="flex justify-between items-center mb-4">
                         <h1 className="text-xl font-bold text-gray-800">All Posts</h1>
                         <span className="text-xs text-gray-400">Total: {filteredPosts.length}</span>
