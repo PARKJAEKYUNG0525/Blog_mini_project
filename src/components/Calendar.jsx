@@ -126,7 +126,7 @@ const Calendar = () => {
                     : "bg-gray-900 text-white hover:bg-black shadow-lg"
                 }`}
               >
-                {attendance[dateKey] ? "Completed ✓" : "attendance check"}
+                {attendance[dateKey] ? "Completed ✓" : "Attendance Check"}
               </button>
               
               {/* WRITE 버튼: 클릭하면 입력창이 열림 */}
