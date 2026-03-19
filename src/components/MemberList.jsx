@@ -17,7 +17,7 @@ const MemberList = () => {
 
     useEffect(() => {
         if (!currentUser) { 
-            alert("You must be logged in."); 
+            alert("Please login to access this page."); 
             navigator('/login'); 
         }
     }, []);

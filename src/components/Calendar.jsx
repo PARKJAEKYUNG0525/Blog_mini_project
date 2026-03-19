@@ -61,7 +61,7 @@ const Calendar = () => {
 
   useEffect(() => {
     if (!currentUser) {
-      alert("로그인이 필요합니다.");
+      alert("Please login to access this page.");
       navigate("/login");
     }
   }, [currentUser, navigate]);
