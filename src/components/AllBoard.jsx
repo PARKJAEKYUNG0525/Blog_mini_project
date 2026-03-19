@@ -50,12 +50,12 @@ const AllBoard = () => {
 
 
     return (
-        <div className="flex justify-center items-start pt-16 min-h-screen bg-gray-100 px-4">
+        <div className="flex justify-center items-start pt-16 min-h-screen bg-[#949494] px-4">
             <div className="flex w-full max-w-[1200px] gap-6">
 
                 {/* 좌측: 인기 게시글 (1/3) */}
-                <div className="w-1/3 bg-white p-6 rounded-2xl shadow-lg">
-                    <h2 className="text-lg font-bold text-gray-700 mb-3">인기 게시글</h2>
+                <div className="w-1/3 bg-white p-6 rounded-2xl">
+                    <h1 className="text-xl font-bold text-gray-800">Popular Posts</h1><br></br>
                     <ul className="bg-gray-50 rounded-xl p-3 space-y-2">
                         {topViewPosts.length > 0 ? (
                             topViewPosts.map((post) => (
@@ -65,27 +65,27 @@ const AllBoard = () => {
                                     onClick={() => handleSelectPost(post)}
                                 >
                                     <span className="truncate">{post.title}</span>
-                                    <span className="text-xs text-gray-400 ml-2">조회수 : {post.views || 0}</span>
+                                    <span className="text-xs text-gray-400 ml-2">Views: {post.views || 0}</span>
                                 </li>
                             ))
                         ) : (
-                            <li className="text-gray-400 text-sm text-center">게시글이 없습니다.</li>
+                            <li className="text-gray-400 text-sm text-center">No posts found.</li>
                         )}
                     </ul>
                 </div>
 
                 {/* 우측: 전체 게시글 + 검색창 (2/3) */}
-                <div className="w-2/3 bg-white p-6 rounded-2xl shadow-lg flex flex-col">
+                <div className="w-2/3 bg-white p-6 rounded-2xl flex flex-col">
                     {/* 상단 타이틀 */}
                     <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-xl font-bold text-gray-800">전체 게시글</h1>
-                        <span className="text-xs text-gray-400">총 {filteredPosts.length}개</span>
+                        <h1 className="text-xl font-bold text-gray-800">All Posts</h1>
+                        <span className="text-xs text-gray-400">Total: {filteredPosts.length}</span>
                     </div>
 
                     {/* 검색창 */}
                     <input
                         type="text"
-                        placeholder="제목 또는 작성자 검색..."
+                        placeholder="Search by title or writer..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm mb-5 focus:outline-none focus:ring-2 focus:ring-blue-300"
@@ -93,9 +93,9 @@ const AllBoard = () => {
 
                     {/* 테이블 헤더 */}
                     <div className="flex items-center bg-gray-100 px-3 py-2 rounded-lg mb-1 text-xs font-bold text-gray-500 uppercase tracking-wide">
-                        <span className="w-1/2 text-center">제목</span>
-                        <span className="w-1/4 text-center">작성자</span>
-                        {isAdmin && (<span className="w-1/4 text-center">관리</span>)}
+                        <span className="w-1/2 text-center">Title</span>
+                        <span className="w-1/4 text-center">Writer</span>
+                        {isAdmin && (<span className="w-1/4 text-center">Manage</span>)}
                     </div>
 
                     {/* 게시글 목록 */}
@@ -123,7 +123,7 @@ const AllBoard = () => {
                                                 to={`/board/edit/${post.id}`}
                                                 className="bg-gray-900 text-white text-[11px] px-3.5 py-1.5 rounded-lg shadow-sm hover:bg-gray-800 transition-all active:scale-95 font-medium inline-block"
                                             >
-                                                수정
+                                                Edit
                                             </Link>
                                         )}
                                         {canDelete(post) && (
@@ -131,14 +131,14 @@ const AllBoard = () => {
                                                 onClick={() => handleDelete(post.id)}
                                                 className="bg-gray-100 text-gray-500 text-[11px] px-3.5 py-1.5 rounded-lg hover:bg-gray-200 hover:text-gray-700 transition-all active:scale-95 font-medium"
                                             >
-                                                삭제
+                                                Delete
                                             </button>
                                         )}
                                     </span>
                                 </li>
                             ))
                         ) : (
-                            <li className="text-center text-gray-300 py-10 text-sm">검색 결과가 없습니다.</li>
+                            <li className="text-center text-gray-300 py-10 text-sm">No search results found.</li>
                         )}
                     </ul>
                 </div>
@@ -167,7 +167,7 @@ const AllBoard = () => {
 
                         {/* 작성자 */}
                         <div className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2 text-sm">
-                            <span className="text-gray-400">작성자</span>
+                            <span className="text-gray-400">Writer</span>
                             <span className="font-semibold text-gray-700">{selectedPost.writerName}</span>
                         </div>
 
@@ -183,7 +183,7 @@ const AllBoard = () => {
                                     to={`/board/edit/${selectedPost.id}`}
                                     className="bg-blue-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
                                 >
-                                    수정
+                                    Edit
                                 </Link>
                             )}
                             {canDelete(selectedPost) && (
@@ -191,14 +191,14 @@ const AllBoard = () => {
                                     onClick={() => handleDelete(selectedPost.id)}
                                     className="bg-red-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
                                 >
-                                    삭제
+                                    Delete
                                 </button>
                             )}
                             <button
                                 onClick={() => setSelectedPost(null)}
                                 className="bg-gray-100 text-gray-600 text-sm px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
                             >
-                                닫기
+                                Close
                             </button>
                         </div>
                     </div>
