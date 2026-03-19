@@ -68,7 +68,8 @@ const CreateBoard = () => {
                     <option value="">카테고리 선택</option>
                     <option value="일상">일상</option>
                     <option value="메모">메모</option>
-                    <option value="자유">자유</option>
+                    <option value="공부">공부</option>
+                    <option value="기타">기타</option>
                 </select> <br></br>
 
                 제목 : <input type='text' className="border w-full p-2 mb-3 rounded" value={title} onChange={(e)=>setTitle(e.target.value)} />

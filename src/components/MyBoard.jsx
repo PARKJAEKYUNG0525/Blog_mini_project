@@ -32,41 +32,43 @@ const MyBoard = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto mt-10 flex gap-8">
+        <div className="flex justify-center items-start pt-16 min-h-screen bg-gray-100">
 
             {/* 좌측 회원 정보*/}
             <div className="w-64 flex-shrink-0">
-                <div className="border rounded-xl shadow p-5 flex flex-col items-center gap-3 bg-white">                    
-                    <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-3xl">
+                <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-4">                    
+                    <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-2xl">
                         👤
                     </div>
                     <div className="text-center">
-                        <div className="font-bold text-lg">{currentUser && currentUser.userId ? currentUser.userId : "-"}</div>
+                        <div className="font-bold text-lg text-gray-800">{currentUser && currentUser.userId ? currentUser.userId : "-"}</div>
                         <div className="text-xs text-gray-400 mt-1">회원</div>
                     </div>
-                    <hr className="w-full border-gray-200" />
+
+                    <div className="w-full h-px bg-gray-100" />
+
                     <div className="w-full text-sm space-y-2">
                         <div className="flex justify-between">
-                            <span className="text-gray-500">이름</span>
-                            <span className="font-medium">{currentUser && currentUser.name ? currentUser.name : "-"}</span>
+                            <span className="text-gray-400">이름</span>
+                            <span className="font-medium text-gray-700">{currentUser && currentUser.name ? currentUser.name : "-"}</span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="text-gray-500">생년월일</span>
-                            <span className="font-medium">{currentUser && currentUser.birthDate ? currentUser.birthDate : "-"}</span>
+                            <span className="text-gray-400">생년월일</span>
+                            <span className="font-medium text-gray-700">{currentUser && currentUser.birthDate ? currentUser.birthDate : "-"}</span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="text-gray-500">게시글</span>
-                            <span className="font-medium text-green-600">{myPosts.length}개</span>
+                            <span className="text-gray-400">게시글</span>
+                            <span className="font-semibold text-blue-500">{myPosts.length}개</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* 우측 게시글 목록 */}
-            <div className="flex-1 flex flex-col">
-                <div className="flex justify-between mb-4">
-                    <h1 className="text-2xl font-bold">내 게시글</h1>
-                    <Link to="/board/create" className="bg-green-500 text-white px-3 py-1 rounded">글쓰기</Link>
+            <div className="flex-1 bg-white p-8 rounded-2xl shadow-lg flex flex-col">
+                <div className="flex justify-between items-center mb-5">
+                    <h1 className="text-xl font-bold text-gray-800">내 게시글</h1>
+                    <Link to="/board/create" className="bg-green-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">글쓰기</Link>
                 </div>
 
                 <div className="space-y-3 overflow-y-auto max-h-[60vh]">
@@ -74,7 +76,14 @@ const MyBoard = () => {
                         myPosts.map((post) => (
                             <div>
                                 <div key={post.id}                                
-                                        onClick={() => setSelectPost(post)}
+                                        onClick={() => {
+                                            if (selectPost && selectPost.id === post.id){
+                                                setSelectPost(null);
+                                            }
+                                            else{
+                                                setSelectPost(post)
+                                            }
+                                        }}   
                                         className={`border p-4 rounded shadow flex justify-between items-center cursor-pointer bg-white ${
                                             selectPost && selectPost.id === post.id ? "bg-green-500" : ""
                                         }`}
