@@ -20,19 +20,18 @@
 
 ## 사용 기술 (Tech Stack)
 
-**Frontend:** React (Hooks, Context API, Router)
-**Styling:** Tailwind CSS (Modern & Minimalist Design)
-**Deployment:** Vercel (자동 배포 시스템)
-**State Management:** 전역 사용자 상태 관리를 위한 custom Provider 활용.
+- **Frontend:** React (Hooks, Context API, Router)
+- **Styling:** Tailwind CSS (Modern & Minimalist Design)
+- **Deployment:** Vercel (자동 배포 시스템)
+- **State Management:** 전역 사용자 상태 관리를 위한 custom Provider 활용.
 
 ---
 
 ## 디자인 포인트
 
-이 프로젝트는 모든 페이지에서 통일된 디자인 언어를 유지합니다.
-**색상 팔레트:** 연한 회색(Gray-50) 배경과 진한 회색(Gray-900) 포인트 컬러 사용.
-**타이포그래피:** 가독성 좋은 폰트와 대문자 트래킹을 활용한 세련된 라벨링.
-**인터랙티브 요소:** 버튼 클릭 시 `active:scale-95` 효과 등 생동감 있는 피드백 제공.
+- **색상 팔레트:** 연한 회색(Gray-50) 배경과 진한 회색(Gray-900) 포인트 컬러 사용.
+- **타이포그래피:** 가독성 좋은 폰트와 대문자 트래킹을 활용한 세련된 라벨링.
+- **인터랙티브 요소:** 버튼 클릭 시 `active:scale-95` 효과 등 생동감 있는 피드백 제공.
 
 
 
